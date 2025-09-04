@@ -4,7 +4,7 @@ on:
   push:
     branches: ['develop']
   pull_request:
-    branches: ['develop','main']
+    branches: ['develop', 'main']
 
 jobs:
   build:
@@ -26,7 +26,8 @@ jobs:
           --health-retries=5
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Set up JDK 21
         if: ${{ hashFiles('**/gradlew') != '' }}
@@ -35,13 +36,19 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
       - name: Wait for DB
         run: |
           for i in {1..30}; do
             pg_isready -h localhost -p 5432 -U postgres && exit 0
+            echo "Postgres no listo aún... reintentando"
             sleep 2
           done
-          exit 1
+          echo "Postgres no arrancó a tiempo"; exit 1
 
       - name: Build with Gradle
         if: ${{ hashFiles('**/gradlew') != '' }}
@@ -61,12 +68,12 @@ jobs:
             -Dsonar.projectKey=sbenitezreyes_SACM
             -Dsonar.organization=sbenitezreyes-1
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.sources=src
-            -Dsonar.tests=src/test
+            -Dsonar.sources=src/main/java,src/main/resources
+            -Dsonar.tests=src/test/java
+            -Dsonar.exclusions=**/build/**,**/.gradle/**,**/src/test/**/*
             -Dsonar.java.binaries=build/classes/java/main
             -Dsonar.java.test.binaries=build/classes/java/test
             -Dsonar.junit.reportPaths=build/test-results/test
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
