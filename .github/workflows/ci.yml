@@ -1,18 +1,33 @@
 name: CI Pipeline
 
 on:
-  pull_request:
+  push:
     branches: ['develop']
+  pull_request:
+    branches: ['develop','main']
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: sacmdb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: admin
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
-      # --- Gradle (Java/Kotlin) ---
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Set up JDK 21
         if: ${{ hashFiles('**/gradlew') != '' }}
         uses: actions/setup-java@v4
@@ -20,13 +35,25 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Wait for DB
+        run: |
+          for i in {1..30}; do
+            pg_isready -h localhost -p 5432 -U postgres && exit 0
+            sleep 2
+          done
+          exit 1
+
       - name: Build with Gradle
         if: ${{ hashFiles('**/gradlew') != '' }}
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sacmdb
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: admin
+          SPRING_JPA_HIBERNATE_DDL_AUTO: validate
         run: |
           chmod +x ./gradlew
           ./gradlew build --stacktrace
 
-      # --- Análisis estático con SonarCloud ---
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
@@ -36,4 +63,3 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
