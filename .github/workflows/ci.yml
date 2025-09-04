@@ -31,8 +31,9 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=sbenitezreyes_seminario-actualizacion
-            -Dsonar.organization=sbenitezreyes
+            -Dsonar.projectKey=sbenitezreyes_SACM
+            -Dsonar.organization=sbenitezreyes-1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
