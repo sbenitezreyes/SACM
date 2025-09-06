@@ -1,17 +1,17 @@
 # 🚀 **SACM - Sistema de Agendamiento de Citas Médicas**
 
 ```
-    ███████╗  █████╗   ██████╗ ███╗   ███╗
-    ██╔════╝ ██╔══██╗ ██╔════╝ ████╗ ████║
-    ███████╗ ███████║ ██║      ██╔████╔██║
-    ╚════██║ ██╔══██║ ██║      ██║╚██╔╝██║
-    ███████║ ██║  ██║ ╚██████╗ ██║ ╚═╝ ██║
-    ╚══════╝ ╚═╝  ╚═╝  ╚═════╝ ╚═╝     ╚═╝
+               ███████╗  █████╗   ██████╗ ███╗   ███╗
+               ██╔════╝ ██╔══██╗ ██╔════╝ ████╗ ████║
+               ███████╗ ███████║ ██║      ██╔████╔██║
+               ╚════██║ ██╔══██║ ██║      ██║╚██╔╝██║
+               ███████║ ██║  ██║ ╚██████╗ ██║ ╚═╝ ██║
+               ╚══════╝ ╚═╝  ╚═╝  ╚═════╝ ╚═╝     ╚═╝
     
-    ╔═════════════════════════════════════╗
-    ║        Sistema de Agendamiento      ║
-    ║           de Citas Médicas          ║
-    ╚═════════════════════════════════════╝
+           ╔═════════════════════════════════════╗
+           ║        Sistema de Agendamiento      ║
+           ║           de Citas Médicas          ║
+           ╚═════════════════════════════════════╝
 ```
 
 > *🏥 Un sistema robusto y eficiente para gestionar citas médicas, desarrollado con Spring Boot y PostgreSQL. 💻*
@@ -530,19 +530,19 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
 ### 👥 **Equipo de Desarrollo**
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  👨‍💻 DESARROLLADOR PRINCIPAL                        │
-│  ├── Nombre: [Tu Nombre]                           │
-│  ├── GitHub: @sbenitezreyes                        │
-│  ├── Email: sbenitezreyes@example.com              │
-│  └── LinkedIn: /in/sbenitezreyes                   │
-│                                                     │
-│  🔗 ENLACES DEL PROYECTO                            │
-│  ├── 📦 Repositorio: github.com/sbenitezreyes/SACM │
-│  ├── 🐛 Issues: github.com/sbenitezreyes/SACM/issues│
-│  ├── 📖 Wiki: github.com/sbenitezreyes/SACM/wiki   │
+┌─────────────────────────────────────────────────────────┐
+│  👨‍💻 DESARROLLADOR PRINCIPAL                             │
+│  ├── Nombre: [Jose/Santiago/Johan/Juan]                 │
+│  ├── GitHub: @                                          │
+│  ├── Email:                                             │
+│  └── LinkedIn: /in/.                                    │
+│                                                         │
+│  🔗 ENLACES DEL PROYECTO                                │
+│  ├── 📦 Repositorio: github.com/sbenitezreyes/SACM      │
+│  ├── 🐛 Issues: github.com/sbenitezreyes/SACM/issues    │
+│  ├── 📖 Wiki: github.com/sbenitezreyes/SACM/wiki        │
 │  └── 🚀 Releases: github.com/sbenitezreyes/SACM/releases│
-└─────────────────────────────────────────────────────┘
+└─────────────────────────────────────────────────────────┘
 ```
 
 ### 💬 **Canales de Comunicación**
@@ -597,16 +597,16 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
 ```
 ┌─────────────────────────────────────────────────────┐
 │  🙏 AGRADECIMIENTOS                                 │
-│  ├── Spring Boot Team - Framework excepcional      │
-│  ├── PostgreSQL Community - Base de datos robusta  │
-│  ├── OpenAPI Initiative - Documentación estándar   │
-│  └── GitHub - Platform de desarrollo colaborativo  │
+│  ├── Spring Boot Team - Framework excepcional       │
+│  ├── PostgreSQL Community - Base de datos robusta   │
+│  ├── OpenAPI Initiative - Documentación estándar    │
+│  └── GitHub - Platform de desarrollo colaborativo   │
 │                                                     │
 │  📚 RECURSOS INSPIRACIONALES                        │
-│  ├── Clean Architecture - Robert C. Martin         │
-│  ├── Spring in Action - Craig Walls               │
-│  ├── Effective Java - Joshua Bloch                 │
-│  └── Building Microservices - Sam Newman           │
+│  ├── Clean Architecture - Robert C. Martin          │
+│  ├── Spring in Action - Craig Walls                 │
+│  ├── Effective Java - Joshua Bloch                  │
+│  └── Building Microservices - Sam Newman            │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -619,14 +619,14 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
  ║                                                          ║
  ║         🏥 ¡Gracias por usar SACM! 🏥                   ║
  ║                                                          ║
- ║   Si encuentras algún problema, por favor reporta       ║
- ║   un issue en GitHub. ¡Tu feedback es muy valioso!      ║
+ ║   Si encuentras algún problema, por favor reporta        ║
+ ║   un issue en GitHub. ¡Tu feedback es muy valioso!       ║
  ║                                                          ║
- ║              ⭐ No olvides dar una estrella ⭐           ║
+ ║              ⭐ No olvides dar una estrella ⭐          ║
  ║                                                          ║
  ╚══════════════════════════════════════════════════════════╝
 ```
 
-**Made with ❤️ by [Tu Nombre](https://github.com/sbenitezreyes)**
+**Made with ❤️ by [Jose Padilla-Santiago Benites-Johan Mejia-Juan Delgado](https://github.com/sbenitezreyes/SACM)**
 
 </div>
