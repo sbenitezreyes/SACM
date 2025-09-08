@@ -627,6 +627,6 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
  ╚══════════════════════════════════════════════════════════╝
 ```
 
-**Made with ❤️ by [Jose Padilla-Santiago Benites-Johan Mejia-Juan Delgado](https://github.com/sbenitezreyes/SACM)**
+**Made with ❤️ by [Jose Padilla-Santiago Benitez-Johan Mejia-Juan Delgado](https://github.com/sbenitezreyes/SACM)**
 
 </div>
