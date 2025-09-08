@@ -1,0 +1,79 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: ['develop']
+  pull_request:
+    branches: ['develop', 'main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: sacmdb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: admin
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        if: ${{ hashFiles('**/gradlew') != '' }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Wait for DB
+        run: |
+          for i in {1..30}; do
+            pg_isready -h localhost -p 5432 -U postgres && exit 0
+            echo "Postgres no listo aún... reintentando"
+            sleep 2
+          done
+          echo "Postgres no arrancó a tiempo"; exit 1
+
+      - name: Build with Gradle
+        if: ${{ hashFiles('**/gradlew') != '' }}
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sacmdb
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: admin
+          SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build --stacktrace
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        with:
+          args: >
+            -Dsonar.projectKey=sbenitezreyes_SACM
+            -Dsonar.organization=sbenitezreyes-1
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.sources=src/main/java,src/main/resources
+            -Dsonar.tests=src/test/java
+            -Dsonar.exclusions=**/build/**,**/.gradle/**,**/src/test/**/*
+            -Dsonar.java.binaries=build/classes/java/main
+            -Dsonar.java.test.binaries=build/classes/java/test
+            -Dsonar.junit.reportPaths=build/test-results/test
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
