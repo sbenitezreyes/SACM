@@ -37,7 +37,6 @@ public class AppointmentController {
     public ResponseEntity<AppointmentResponseDTO> create(@Valid @RequestBody AppointmentRequestDTO req) {
        // @Valid forzará a que el DTO cumpla sus anotaciones.
         // Si falla, un @ControllerAdvice puede mapearlo a 400.
-        return ResponseEntity.ok(appointmentService.create(req));
         return ResponseEntity.ok(appointmentService.create(req)); 
     }
 
