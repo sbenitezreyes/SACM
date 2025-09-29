@@ -70,6 +70,7 @@ El sistema está preparado para integraciones con servicios externos mediante in
 | **📊 Monitoreo**              | Endpoints de Actuator para salud y métricas                                       |
 | **🧪 Pruebas**                | Cobertura de pruebas unitarias y de integración                                   |
 
+---
 ## 🔧 **Funcionalidades Detalladas**
 
 ### PACIENTES
