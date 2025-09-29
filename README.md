@@ -211,10 +211,11 @@ springdoc.swagger-ui.enabled=true
 
 ### 🎮 **Ejemplos Prácticos con cURL**
 
-#### Gestión de Pacientes
+<details>
+<summary>👨‍⚕️ <strong>Gestión de Pacientes</strong></summary>
 
 ```bash
-# Crear un Paciente
+# 🔹 Crear un Paciente
 curl -X POST http://localhost:8080/api/v1/patients \
   -H "Content-Type: application/json" \
   -d '{
@@ -223,13 +224,13 @@ curl -X POST http://localhost:8080/api/v1/patients \
     "email": "juan.perez@example.com"
   }'
 
-# Listar todos los Pacientes
+# 🔹 Listar todos los Pacientes
 curl -X GET http://localhost:8080/api/v1/patients
 
 # Obtener Paciente por ID
 curl -X GET http://localhost:8080/api/v1/patients/1
 
-# Actualizar Paciente
+# 🔹 Actualizar Paciente
 curl -X PUT http://localhost:8080/api/v1/patients/1 \
   -H "Content-Type: application/json" \
   -d '{
@@ -237,6 +238,8 @@ curl -X PUT http://localhost:8080/api/v1/patients/1 \
     "email": "juan.nuevo@example.com"
   }'
 ```
+
+</details>
 
 <details>
 <summary>👨‍⚕️ <strong>Gestión de Médicos</strong></summary>
