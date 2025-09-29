@@ -70,25 +70,24 @@ El sistema está preparado para integraciones con servicios externos mediante in
 | **📊 Monitoreo**              | Endpoints de Actuator para salud y métricas                                       |
 | **🧪 Pruebas**                | Cobertura de pruebas unitarias y de integración                                   |
 
----
 ## 🔧 **Funcionalidades Detalladas**
 
 ### PACIENTES
-├── **Registro con nombre completo**
-├── **Documento de identidad único**
-├── **Email con validación**
-└── **Operaciones CRUD completas**
+- **Registro con nombre completo**
+- **Documento de identidad único**
+- **Email con validación**
+- **Operaciones CRUD completas**
 
 ### MÉDICOS
-├── **Perfil con nombre completo**
-├── **Especialidad médica**
-└── **Gestión de disponibilidad**
+- **Perfil con nombre completo**
+- **Especialidad médica**
+- **Gestión de disponibilidad**
 
 ### CITAS
-├── **Estados:** Solicitada | Confirmada | Cancelada | Completada
-├── **Pagos:** Pendiente | Pagado | Reembolsado
-├── **Validación anti-conflictos**
-└── **Historial completo por paciente/médico**
+- **Estados:** Solicitada | Confirmada | Cancelada | Completada
+- **Pagos:** Pendiente | Pagado | Reembolsado
+- **Validación anti-conflictos**
+- **Historial completo por paciente/médico**
 ```
 
 ---
@@ -147,7 +146,7 @@ El sistema está preparado para integraciones con servicios externos mediante in
 │  ☑️  Java 21 JDK o superior                │
 │  ☑️  PostgreSQL 17.6+ instalado            │
 │  ☑️  Git para clonar el repositorio        │
-│  ☑️  Terminal/CMD con permisos             │
+│  ☑️  Terminal/CMD con permisos              │
 └─────────────────────────────────────────────┘
 ```
 
