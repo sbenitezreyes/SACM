@@ -74,28 +74,24 @@ El sistema está preparado para integraciones con servicios externos mediante in
 
 </div>
 
-## Integración de CORS
-Integración de CORS en el backend para permitir peticiones desde apps web y móviles.
+## 🔧 **Funcionalidades Detalladas**
 
-### 🔧 **Funcionalidades Detalladas**
+### PACIENTES
+- Registro con nombre completo
+- Documento de identidad único
+- Email con validación
+- Operaciones CRUD completas
 
-```
-🔸 PACIENTES
-  ├── Registro con nombre completo
-  ├── Documento de identidad único
-  ├── Email con validación
-  └── Operaciones CRUD completas
+### MÉDICOS
+- Perfil con nombre completo
+- Especialidad médica
+- Gestión de disponibilidad
 
-🔸 MÉDICOS  
-  ├── Perfil con nombre completo
-  ├── Especialidad médica
-  └── Gestión de disponibilidad
-
-🔸 CITAS
-  ├── Estados: Solicitada | Confirmada | Cancelada | Completada
-  ├── Pagos: Pendiente | Pagado | Reembolsado
-  ├── Validación anti-conflictos
-  └── Historial completo por paciente/médico
+### CITAS
+- Estados: Solicitada | Confirmada | Cancelada | Completada
+- Pagos: Pendiente | Pagado | Reembolsado
+- Validación anti-conflictos
+- Historial completo por paciente/médico
 ```
 
 ---
