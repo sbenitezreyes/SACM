@@ -51,43 +51,50 @@ El sistema está preparado para integraciones con servicios externos mediante in
 ---
 
 ## 🛠️ **Stack Tecnológico**
-```
+
+| 🔧 **Backend** | 🗄️ **Database** | 📋 **Tools** |
+|----------------|-----------------|--------------|
+| Spring Boot 3.5.5 | PostgreSQL 17.6 | Gradle Build |
+| Java 21 | HikariCP Pool | Flyway Migrations |
+| Hibernate/JPA | ACID Compliant | Swagger/OpenAPI |
+| Lombok | Full-Text Search | GitHub Actions |
+| JavaMailSender | Backup Support | SonarCloud |
 
 ---
 
 ## ✨ **Características Principales**
 
-| 🩺 **Característica** | 📝 **Descripción** |
-|------------------------|---------------------|
-| **🏥 Gestión de Pacientes** | Crear, actualizar, listar y eliminar pacientes con validaciones completas |
-| **👨‍⚕️ Gestión de Médicos** | Administrar perfiles de médicos con especialidades |
-| **📅 Agendamiento de Citas** | Crear, reprogramar, confirmar y cancelar citas con validaciones de conflictos |
-| **⚡ Validaciones Avanzadas** | Verificación de horarios, solapamientos y datos obligatorios |
-| **📧 Notificaciones** | Integración para envío de correos electrónicos (en desarrollo) |
-| **💳 Integración de Pagos** | Procesamiento de pagos y reembolsos para citas (en desarrollo) |
-| **🔗 API RESTful** | Documentada con Swagger/OpenAPI para fácil integración |
-| **🗃️ Base de Datos** | PostgreSQL con migraciones automáticas via Flyway |
-| **📊 Monitoreo** | Endpoints de Actuator para salud y métricas |
-| **🧪 Pruebas** | Cobertura de pruebas unitarias y de integración |
+| 🩺 **Característica**         | 📝 **Descripción**                                                                 |
+|-------------------------------|-----------------------------------------------------------------------------------|
+| **🏥 Gestión de Pacientes**   | Crear, actualizar, listar y eliminar pacientes con validaciones completas         |
+| **👨‍⚕️ Gestión de Médicos**   | Administrar perfiles de médicos con especialidades                                |
+| **📅 Agendamiento de Citas**  | Crear, reprogramar, confirmar y cancelar citas con validaciones de conflictos     |
+| **⚡ Validaciones Avanzadas** | Verificación de horarios, solapamientos y datos obligatorios                      |
+| **📧 Notificaciones**         | Integración para envío de correos electrónicos (en desarrollo)                    |
+| **💳 Integración de Pagos**   | Procesamiento de pagos y reembolsos para citas (en desarrollo)                    |
+| **🔗 API RESTful**            | Documentada con Swagger/OpenAPI para fácil integración                            |
+| **🗃️ Base de Datos**          | PostgreSQL con migraciones automáticas via Flyway                                 |
+| **📊 Monitoreo**              | Endpoints de Actuator para salud y métricas                                       |
+| **🧪 Pruebas**                | Cobertura de pruebas unitarias y de integración                                   |
 
 ## 🔧 **Funcionalidades Detalladas**
 
 ### PACIENTES
-- **Registro con nombre completo**
-- **Documento de identidad único**
-- **Email con validación**
-- **Operaciones CRUD completas**
+├── **Registro con nombre completo**
+├── **Documento de identidad único**
+├── **Email con validación**
+└── **Operaciones CRUD completas**
 
 ### MÉDICOS
-- **Perfil con nombre completo**
-- **Especialidad médica**
-- **Gestión de disponibilidad**
+├── **Perfil con nombre completo**
+├── **Especialidad médica**
+└── **Gestión de disponibilidad**
 
 ### CITAS
-- **Estados:** Solicitada | Confirmada | Cancelada | Completada
-- **Pagos:** Pendiente | Pagado | Reembolsado
-- **Validación anti-conflictos**
-- **Historial completo por paciente/médico**
+├── **Estados:** Solicitada | Confirmada | Cancelada | Completada
+├── **Pagos:** Pendiente | Pagado | Reembolsado
+├── **Validación anti-conflictos**
+└── **Historial completo por paciente/médico**
 ```
 
 ---
@@ -146,8 +153,10 @@ El sistema está preparado para integraciones con servicios externos mediante in
 │  ☑️  Java 21 JDK o superior                │
 │  ☑️  PostgreSQL 17.6+ instalado            │
 │  ☑️  Git para clonar el repositorio        │
-│  ☑️  Terminal/CMD con permisos              │
+│  ☑️  Terminal/CMD con permisos             │
 └─────────────────────────────────────────────┘
+
+---
 ```
 
 ### ⚡ **Instalación Rápida**
@@ -299,18 +308,17 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
 ### 🖥️ **Interfaz de Usuario**
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  📊 SWAGGER UI - Interfaz Interactiva              │
-│  ➤ Probar endpoints en tiempo real                 │
-│  ➤ Ver documentación completa de la API            │
-│  ➤ Validar requests y responses                     │
-│                                                     │
-│  🔮 FUTURO: Interfaz Web React/Vue                 │
-│  ➤ Dashboard para administradores                   │
-│  ➤ Portal para pacientes                           │
-│  ➤ Panel para médicos                              │
-└─────────────────────────────────────────────────────┘
-```
+┌─────────────────────────────────────────────┐
+│  📊 SWAGGER UI - Interfaz Interactiva      │
+│  ➤ Probar endpoints en tiempo real        │
+│  ➤ Ver documentación completa de la API   │
+│  ➤ Validar requests y responses           │
+│                                           │
+│  💎 FUTURO: Interfaz Web React/Vue         │
+│  ➤ Dashboard para administradores         │
+│  ➤ Portal para pacientes                  │
+│  ➤ Panel para médicos                     │
+└─────────────────────────────────────────────┘
 
 ---
 
@@ -445,18 +453,20 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
 ### 📈 **Métricas de Calidad**
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  📊 COBERTURA DE CÓDIGO                            │
+┌─────────────────────────────────────────────┐
+│  📊 COBERTURA DE CÓDIGO                    │
 │  ├── Pruebas Unitarias: ✅ Servicios y Validadores │
-│  ├── Pruebas Integración: ✅ Controladores         │
-│  └── Análisis Estático: ✅ SonarCloud              │
-│                                                    │
-│  🔍 ANÁLISIS DE CÓDIGO                             │
-│  ├── Bugs: 0 🐛                                    │
-│  ├── Vulnerabilidades: 0 🔒                        │
-│  ├── Code Smells: Mínimos 🌿                       │
-│  └── Duplicación: < 3% 📋                          │
-└─────────────────────────────────────────────────────┘
+│  ├── Pruebas Integración: ✅ Controladores │
+│  └── Análisis Estático: ✅ SonarCloud      │
+│                                           │
+│  🔍 ANÁLISIS DE CÓDIGO                    │
+│  ├── Bugs: 0 🐛                            │
+│  ├── Vulnerabilidades: 0 🔒                │
+│  ├── Code Smells: Mínimos 🌿               │
+│  └── Duplicación: < 3% 📋                  │
+└─────────────────────────────────────────────┘
+
+---
 ```
 
 ## 🐳 **Despliegue**
@@ -583,27 +593,19 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
 ### 👥 **Equipo de Desarrollo**
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  👨‍💻 DESARROLLADOR PRINCIPAL                             │
-│  ├── Nombre: [Jose/Santiago/Johan/Juan]                 │
-│  ├── GitHub: @                                          │
-│  ├── Email:                                             │
-│  └── LinkedIn: /in/.                                    │
-│                                                         │
-│  🔗 ENLACES DEL PROYECTO                                │
-│  ├── 📦 Repositorio: github.com/sbenitezreyes/SACM      │
-│  ├── 🐛 Issues: github.com/sbenitezreyes/SACM/issues    │
-│  ├── 📖 Wiki: github.com/sbenitezreyes/SACM/wiki        │
-│  └── 🚀 Releases: github.com/sbenitezreyes/SACM/releases│
-└─────────────────────────────────────────────────────────┘
-```
-
-### 💬 **Canales de Comunicación**
-
-- **🐛 Reportar Bugs:** [GitHub Issues](https://github.com/sbenitezreyes/SACM/issues)
-- **💡 Solicitar Features:** [GitHub Discussions](https://github.com/sbenitezreyes/SACM/discussions)
-- **❓ Preguntas:** Stack Overflow con tag `sacm-medical`
-- **📧 Contacto Directo:** sbenitezreyes@example.com
+┌─────────────────────────────────────────────┐
+│  👨‍💻 DESARROLLADOR PRINCIPAL              │
+│  ├── Nombre: [Jose/Santiago/Johan/Juan]    │
+│  ├── GitHub: @                             │
+│  ├── Email:                                │
+│  └── LinkedIn: /in/.                       │
+│                                           │
+│  🔗 ENLACES DEL PROYECTO                  │
+│  ├── 📦 Repositorio: github.com/sbenitezreyes/SACM │
+│  ├── 🐛 Issues: github.com/sbenitezreyes/SACM/issues │
+│  ├── 📖 Wiki: github.com/sbenitezreyes/SACM/wiki │
+│  └── 🚀 Releases: github.com/sbenitezreyes/SACM/releases │
+└─────────────────────────────────────────────┘
 
 ---
 
