@@ -31,7 +31,12 @@
 │ ✅ Evitar conflictos de horarios automáticamente            │
 │ ✅ Proporcionar una interfaz intuitiva para usuarios        │
 │ ✅ Ofrecer una API extensible para integraciones futuras    │
-└─────────────────────────────────────────────────────────────┘
+└─────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🛠️ **Stack Tecnológico**
 ```
 
 ---
@@ -53,6 +58,9 @@
 | **🧪 Pruebas** | Cobertura de pruebas unitarias y de integración |
 
 </div>
+
+## Integración de CORS
+Integración de CORS en el backend para permitir peticiones desde apps web y móviles.
 
 ### 🔧 **Funcionalidades Detalladas**
 
@@ -187,15 +195,11 @@ springdoc.swagger-ui.enabled=true
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  🌍 Aplicación Principal                                │
+
 │  ➤ http://localhost:8080                               │
 │                                                         │
 │  📚 Documentación API (Swagger)                        │
 │  ➤ http://localhost:8080/swagger-ui/index.html         │
-│                                                         │
-│  ❤️ Health Check (Actuator)                            │
-│  ➤ http://localhost:8080/actuator/health               │
-└─────────────────────────────────────────────────────────┘
-```
 
 ---
 
@@ -203,7 +207,6 @@ springdoc.swagger-ui.enabled=true
 
 ### 🎮 **Ejemplos Prácticos con cURL**
 
-<details>
 <summary>👤 <strong>Gestión de Pacientes</strong></summary>
 
 ```bash
@@ -447,6 +450,48 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
 │  └── Duplicación: < 3% 📋                          │
 └─────────────────────────────────────────────────────┘
 ```
+
+## 🐳 **Despliegue**
+
+### 🐳 **Despliegue con Docker**
+
+```bash
+
+# 1️⃣ Construir la imagen
+ docker build -t sacm-app .
+
+Para detener y eliminar el contenedor:
+
+```bash
+docker rm -f sacm-app
+```
+
+---
+
+## ☁️ **Despliegue en AWS EC2**
+
+La aplicación y la base de datos están desplegadas en AWS:
+
+- **Swagger UI**: [http://18.117.111.212:8080/swagger-ui/index.html](http://18.117.111.212:8080/swagger-ui/index.html)
+- **Base de datos**: PostgreSQL en AWS RDS
+- **Servidor**: Linux (Amazon EC2)
+- **Usuario SSH**: `ec2-user`
+- **IP pública**: `18.117.111.212`
+
+### Comando para desplegar la aplicación en AWS
+
+```bash
+java -jar sacm-0.0.1-SNAPSHOT.jar
+```
+
+### 2️⃣ **Ejecutar el contenedor**
+
+```bash
+docker run -d -p 8080:8080 --name sacm-app sacm-app:latest
+```
+
+El contenedor expone el puerto `8080` para acceso a la API y Swagger.
+Puedes configurar variables de entorno para la base de datos si lo necesitas.
 
 ---
 
