@@ -200,25 +200,20 @@ springdoc.swagger-ui.enabled=true
 ### 🌐 **URLs de Acceso**
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  🌍 Aplicación Principal                                │
-
-│  ➤ http://localhost:8080                               │
-│                                                         │
-│  📚 Documentación API (Swagger)                        │
-│  ➤ http://localhost:8080/swagger-ui/index.html         │
+Aplicación Principal: http://localhost:8080
+Documentación API (Swagger): http://localhost:8080/swagger-ui/index.html
+```
 
 ---
 
-## � **Guía de Uso del Sistema**
+## 🛠️ **Guía de Uso del Sistema**
 
 ### 🎮 **Ejemplos Prácticos con cURL**
 
-<summary>👤 <strong>Gestión de Pacientes</strong></summary>
+#### Gestión de Pacientes
 
 ```bash
-
-# 🔹 Crear un Paciente
+# Crear un Paciente
 curl -X POST http://localhost:8080/api/v1/patients \
   -H "Content-Type: application/json" \
   -d '{
@@ -227,13 +222,13 @@ curl -X POST http://localhost:8080/api/v1/patients \
     "email": "juan.perez@example.com"
   }'
 
-# 🔹 Listar todos los Pacientes
+# Listar todos los Pacientes
 curl -X GET http://localhost:8080/api/v1/patients
 
-# 🔹 Obtener Paciente por ID
+# Obtener Paciente por ID
 curl -X GET http://localhost:8080/api/v1/patients/1
 
-# 🔹 Actualizar Paciente
+# Actualizar Paciente
 curl -X PUT http://localhost:8080/api/v1/patients/1 \
   -H "Content-Type: application/json" \
   -d '{
@@ -241,8 +236,6 @@ curl -X PUT http://localhost:8080/api/v1/patients/1 \
     "email": "juan.nuevo@example.com"
   }'
 ```
-
-</details>
 
 <details>
 <summary>👨‍⚕️ <strong>Gestión de Médicos</strong></summary>
