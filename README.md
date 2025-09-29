@@ -57,8 +57,6 @@ El sistema está preparado para integraciones con servicios externos mediante in
 
 ## ✨ **Características Principales**
 
-<div align="center">
-
 | 🩺 **Característica** | 📝 **Descripción** |
 |------------------------|---------------------|
 | **🏥 Gestión de Pacientes** | Crear, actualizar, listar y eliminar pacientes con validaciones completas |
@@ -72,26 +70,24 @@ El sistema está preparado para integraciones con servicios externos mediante in
 | **📊 Monitoreo** | Endpoints de Actuator para salud y métricas |
 | **🧪 Pruebas** | Cobertura de pruebas unitarias y de integración |
 
-</div>
-
 ## 🔧 **Funcionalidades Detalladas**
 
 ### PACIENTES
-- Registro con nombre completo
-- Documento de identidad único
-- Email con validación
-- Operaciones CRUD completas
+- **Registro con nombre completo**
+- **Documento de identidad único**
+- **Email con validación**
+- **Operaciones CRUD completas**
 
 ### MÉDICOS
-- Perfil con nombre completo
-- Especialidad médica
-- Gestión de disponibilidad
+- **Perfil con nombre completo**
+- **Especialidad médica**
+- **Gestión de disponibilidad**
 
 ### CITAS
-- Estados: Solicitada | Confirmada | Cancelada | Completada
-- Pagos: Pendiente | Pagado | Reembolsado
-- Validación anti-conflictos
-- Historial completo por paciente/médico
+- **Estados:** Solicitada | Confirmada | Cancelada | Completada
+- **Pagos:** Pendiente | Pagado | Reembolsado
+- **Validación anti-conflictos**
+- **Historial completo por paciente/médico**
 ```
 
 ---
