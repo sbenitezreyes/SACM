@@ -51,14 +51,7 @@ El sistema está preparado para integraciones con servicios externos mediante in
 ---
 
 ## 🛠️ **Stack Tecnológico**
-
-| 🔧 **Backend** | 🗄️ **Database** | 📋 **Tools** |
-|----------------|-----------------|--------------|
-| Spring Boot 3.5.5 | PostgreSQL 17.6 | Gradle Build |
-| Java 21 | HikariCP Pool | Flyway Migrations |
-| Hibernate/JPA | ACID Compliant | Swagger/OpenAPI |
-| Lombok | Full-Text Search | GitHub Actions |
-| JavaMailSender | Backup Support | SonarCloud |
+```
 
 ---
 
@@ -155,8 +148,6 @@ El sistema está preparado para integraciones con servicios externos mediante in
 │  ☑️  Git para clonar el repositorio        │
 │  ☑️  Terminal/CMD con permisos             │
 └─────────────────────────────────────────────┘
-
----
 ```
 
 ### ⚡ **Instalación Rápida**
@@ -308,17 +299,18 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
 ### 🖥️ **Interfaz de Usuario**
 
 ```
-┌─────────────────────────────────────────────┐
-│  📊 SWAGGER UI - Interfaz Interactiva      │
-│  ➤ Probar endpoints en tiempo real        │
-│  ➤ Ver documentación completa de la API   │
-│  ➤ Validar requests y responses           │
-│                                           │
-│  💎 FUTURO: Interfaz Web React/Vue         │
-│  ➤ Dashboard para administradores         │
-│  ➤ Portal para pacientes                  │
-│  ➤ Panel para médicos                     │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│  📊 SWAGGER UI - Interfaz Interactiva              │
+│  ➤ Probar endpoints en tiempo real                 │
+│  ➤ Ver documentación completa de la API            │
+│  ➤ Validar requests y responses                     │
+│                                                     │
+│  🔮 FUTURO: Interfaz Web React/Vue                 │
+│  ➤ Dashboard para administradores                   │
+│  ➤ Portal para pacientes                           │
+│  ➤ Panel para médicos                              │
+└─────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -453,20 +445,18 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
 ### 📈 **Métricas de Calidad**
 
 ```
-┌─────────────────────────────────────────────┐
-│  📊 COBERTURA DE CÓDIGO                    │
+┌─────────────────────────────────────────────────────┐
+│  📊 COBERTURA DE CÓDIGO                            │
 │  ├── Pruebas Unitarias: ✅ Servicios y Validadores │
-│  ├── Pruebas Integración: ✅ Controladores │
-│  └── Análisis Estático: ✅ SonarCloud      │
-│                                           │
-│  🔍 ANÁLISIS DE CÓDIGO                    │
-│  ├── Bugs: 0 🐛                            │
-│  ├── Vulnerabilidades: 0 🔒                │
-│  ├── Code Smells: Mínimos 🌿               │
-│  └── Duplicación: < 3% 📋                  │
-└─────────────────────────────────────────────┘
-
----
+│  ├── Pruebas Integración: ✅ Controladores         │
+│  └── Análisis Estático: ✅ SonarCloud              │
+│                                                    │
+│  🔍 ANÁLISIS DE CÓDIGO                             │
+│  ├── Bugs: 0 🐛                                    │
+│  ├── Vulnerabilidades: 0 🔒                        │
+│  ├── Code Smells: Mínimos 🌿                       │
+│  └── Duplicación: < 3% 📋                          │
+└─────────────────────────────────────────────────────┘
 ```
 
 ## 🐳 **Despliegue**
@@ -593,19 +583,27 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
 ### 👥 **Equipo de Desarrollo**
 
 ```
-┌─────────────────────────────────────────────┐
-│  👨‍💻 DESARROLLADOR PRINCIPAL              │
-│  ├── Nombre: [Jose/Santiago/Johan/Juan]    │
-│  ├── GitHub: @                             │
-│  ├── Email:                                │
-│  └── LinkedIn: /in/.                       │
-│                                           │
-│  🔗 ENLACES DEL PROYECTO                  │
-│  ├── 📦 Repositorio: github.com/sbenitezreyes/SACM │
-│  ├── 🐛 Issues: github.com/sbenitezreyes/SACM/issues │
-│  ├── 📖 Wiki: github.com/sbenitezreyes/SACM/wiki │
-│  └── 🚀 Releases: github.com/sbenitezreyes/SACM/releases │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│  👨‍💻 DESARROLLADOR PRINCIPAL                             │
+│  ├── Nombre: [Jose/Santiago/Johan/Juan]                 │
+│  ├── GitHub: @                                          │
+│  ├── Email:                                             │
+│  └── LinkedIn: /in/.                                    │
+│                                                         │
+│  🔗 ENLACES DEL PROYECTO                                │
+│  ├── 📦 Repositorio: github.com/sbenitezreyes/SACM      │
+│  ├── 🐛 Issues: github.com/sbenitezreyes/SACM/issues    │
+│  ├── 📖 Wiki: github.com/sbenitezreyes/SACM/wiki        │
+│  └── 🚀 Releases: github.com/sbenitezreyes/SACM/releases│
+└─────────────────────────────────────────────────────────┘
+```
+
+### 💬 **Canales de Comunicación**
+
+- **🐛 Reportar Bugs:** [GitHub Issues](https://github.com/sbenitezreyes/SACM/issues)
+- **💡 Solicitar Features:** [GitHub Discussions](https://github.com/sbenitezreyes/SACM/discussions)
+- **❓ Preguntas:** Stack Overflow con tag `sacm-medical`
+- **📧 Contacto Directo:** sbenitezreyes@example.com
 
 ---
 
