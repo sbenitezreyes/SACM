@@ -31,48 +31,63 @@
 │ ✅ Evitar conflictos de horarios automáticamente            │
 │ ✅ Proporcionar una interfaz intuitiva para usuarios        │
 │ ✅ Ofrecer una API extensible para integraciones futuras    │
-└─────────────────────────────────────────────────────────────┘
+└─────────────────────────────────────────────────────┘
+```
+
+## 🔗 **Integraciones Externas**
+
+El sistema está preparado para integraciones con servicios externos mediante interfaces modulares:
+
+### 📧 **Notificaciones**
+- **Interfaz:** `NotificationsClient`
+- **Funcionalidades:** Envío de correos para creación y cancelación de citas
+- **Estado:** Implementación dummy actual, lista para integración con proveedores como SendGrid o AWS SES
+
+### 💳 **Pagos**
+- **Interfaz:** `PaymentsClient`
+- **Funcionalidades:** Creación de pagos y procesamiento de reembolsos
+- **Estado:** Implementación dummy actual, preparada para pasarelas como Stripe o PayPal
+
+---
+
+## 🛠️ **Stack Tecnológico**
 ```
 
 ---
 
 ## ✨ **Características Principales**
 
-<div align="center">
+| Característica         | Descripción                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| Gestión de Pacientes   | Crear, actualizar, listar y eliminar pacientes con validaciones completas   |
+| Gestión de Médicos     | Administrar perfiles de médicos con especialidades                          |
+| Agendamiento de Citas  | Crear, reprogramar, confirmar y cancelar citas con validaciones de conflictos |
+| Validaciones Avanzadas | Verificación de horarios, solapamientos y datos obligatorios                |
+| Notificaciones         | Integración para envío de correos electrónicos (en desarrollo)              |
+| Integración de Pagos   | Procesamiento de pagos y reembolsos para citas (en desarrollo)              |
+| API RESTful            | Documentada con Swagger/OpenAPI para fácil integración                      |
+| Base de Datos          | PostgreSQL con migraciones automáticas via Flyway                           |
+| Monitoreo              | Endpoints de Actuator para salud y métricas                                 |
+| Pruebas                | Cobertura de pruebas unitarias y de integración                             |
 
-| 🩺 **Característica** | 📝 **Descripción** |
-|------------------------|---------------------|
-| **🏥 Gestión de Pacientes** | Crear, actualizar, listar y eliminar pacientes con validaciones completas |
-| **👨‍⚕️ Gestión de Médicos** | Administrar perfiles de médicos con especialidades |
-| **📅 Agendamiento de Citas** | Crear, reprogramar, confirmar y cancelar citas con validaciones de conflictos |
-| **⚡ Validaciones Avanzadas** | Verificación de horarios, solapamientos y datos obligatorios |
-| **📧 Notificaciones** | Integración para envío de correos electrónicos (en desarrollo) |
-| **🔗 API RESTful** | Documentada con Swagger/OpenAPI para fácil integración |
-| **🗃️ Base de Datos** | PostgreSQL con migraciones automáticas via Flyway |
-| **📊 Monitoreo** | Endpoints de Actuator para salud y métricas |
-| **🧪 Pruebas** | Cobertura de pruebas unitarias y de integración |
+## 🔧 **Funcionalidades Detalladas**
 
-</div>
+### PACIENTES
+- Registro con nombre completo
+- Documento de identidad único
+- Email con validación
+- Operaciones CRUD completas
 
-### 🔧 **Funcionalidades Detalladas**
+### MÉDICOS
+- Perfil con nombre completo
+- Especialidad médica
+- Gestión de disponibilidad
 
-```
-🔸 PACIENTES
-  ├── Registro con nombre completo
-  ├── Documento de identidad único
-  ├── Email con validación
-  └── Operaciones CRUD completas
-
-🔸 MÉDICOS  
-  ├── Perfil con nombre completo
-  ├── Especialidad médica
-  └── Gestión de disponibilidad
-
-🔸 CITAS
-  ├── Estados: Solicitada | Confirmada | Cancelada | Completada
-  ├── Pagos: Pendiente | Pagado | Reembolsado
-  ├── Validación anti-conflictos
-  └── Historial completo por paciente/médico
+### CITAS
+- Estados: Solicitada | Confirmada | Cancelada | Completada
+- Pagos: Pendiente | Pagado | Reembolsado
+- Validación anti-conflictos
+- Historial completo por paciente/médico
 ```
 
 ---
@@ -184,27 +199,20 @@ springdoc.swagger-ui.enabled=true
 
 ### 🌐 **URLs de Acceso**
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  🌍 Aplicación Principal                                │
-│  ➤ http://localhost:8080                               │
-│                                                         │
-│  📚 Documentación API (Swagger)                        │
-│  ➤ http://localhost:8080/swagger-ui/index.html         │
-│                                                         │
-│  ❤️ Health Check (Actuator)                            │
-│  ➤ http://localhost:8080/actuator/health               │
-└─────────────────────────────────────────────────────────┘
-```
+### Aplicación Principal
+- [http://localhost:8080](http://localhost:8080)
+
+### Documentación API (Swagger)
+- [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
 ---
 
-## � **Guía de Uso del Sistema**
+## 🛠️ **Guía de Uso del Sistema**
 
 ### 🎮 **Ejemplos Prácticos con cURL**
 
 <details>
-<summary>👤 <strong>Gestión de Pacientes</strong></summary>
+<summary>👨‍⚕️ <strong>Gestión de Pacientes</strong></summary>
 
 ```bash
 # 🔹 Crear un Paciente
@@ -219,7 +227,7 @@ curl -X POST http://localhost:8080/api/v1/patients \
 # 🔹 Listar todos los Pacientes
 curl -X GET http://localhost:8080/api/v1/patients
 
-# 🔹 Obtener Paciente por ID
+# Obtener Paciente por ID
 curl -X GET http://localhost:8080/api/v1/patients/1
 
 # 🔹 Actualizar Paciente
@@ -353,6 +361,7 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
 | `POST` | `/api/v1/appointments/{id}/complete` | ✔️ Completar cita | `CONFIRMED` → `COMPLETED` |
 | `GET` | `/api/v1/appointments/doctor/{doctorId}` | 📋 Citas por médico | Con filtros de fecha |
 | `GET` | `/api/v1/appointments/patient/{patientId}` | 📋 Historial de paciente | Ordenado por fecha |
+| `DELETE` | `/api/v1/appointments/{id}` | 🗑️ Eliminar cita | Solo si no está completada |
 
 ### 🗂️ **Modelos de Datos**
 
@@ -447,6 +456,48 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
 │  └── Duplicación: < 3% 📋                          │
 └─────────────────────────────────────────────────────┘
 ```
+
+## 🐳 **Despliegue**
+
+### 🐳 **Despliegue con Docker**
+
+```bash
+
+# 1️⃣ Construir la imagen
+ docker build -t sacm-app .
+
+Para detener y eliminar el contenedor:
+
+```bash
+docker rm -f sacm-app
+```
+
+---
+
+## ☁️ **Despliegue en AWS EC2**
+
+La aplicación y la base de datos están desplegadas en AWS:
+
+- **Swagger UI**: [http://18.117.111.212:8080/swagger-ui/index.html](http://18.117.111.212:8080/swagger-ui/index.html)
+- **Base de datos**: PostgreSQL en AWS RDS
+- **Servidor**: Linux (Amazon EC2)
+- **Usuario SSH**: `ec2-user`
+- **IP pública**: `18.117.111.212`
+
+### Comando para desplegar la aplicación en AWS
+
+```bash
+java -jar sacm-0.0.1-SNAPSHOT.jar
+```
+
+### 2️⃣ **Ejecutar el contenedor**
+
+```bash
+docker run -d -p 8080:8080 --name sacm-app sacm-app:latest
+```
+
+El contenedor expone el puerto `8080` para acceso a la API y Swagger.
+Puedes configurar variables de entorno para la base de datos si lo necesitas.
 
 ---
 
@@ -561,7 +612,8 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
 ```
 🔹 MEJORAS PLANIFICADAS:
   ├── 📧 Sistema de notificaciones por email completo
-  ├── 📱 Campos adicionales en PatientRequestDTO
+  ├── � Sistema de pagos completo
+  ├── �📱 Campos adicionales en PatientRequestDTO
   ├── 🔐 Autenticación y autorización (Spring Security)
   ├── 🌐 API Gateway para microservicios
   └── 📊 Dashboard administrativo
@@ -627,6 +679,6 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
  ╚══════════════════════════════════════════════════════════╝
 ```
 
-**Made with ❤️ by [Jose Padilla-Santiago Benitez-Johan Mejia-Juan Delgado.](https://github.com/sbenitezreyes/SACM)**
+**Made with ❤️ by [Jose Padilla-Santiago Benitez-Johan Mejia-Juan Delgado](https://github.com/sbenitezreyes/SACM)**
 
 </div>
