@@ -57,37 +57,37 @@ El sistema está preparado para integraciones con servicios externos mediante in
 
 ## ✨ **Características Principales**
 
-| 🩺 **Característica**         | 📝 **Descripción**                                                                 |
-|-------------------------------|-----------------------------------------------------------------------------------|
-| **🏥 Gestión de Pacientes**   | Crear, actualizar, listar y eliminar pacientes con validaciones completas         |
-| **👨‍⚕️ Gestión de Médicos**   | Administrar perfiles de médicos con especialidades                                |
-| **📅 Agendamiento de Citas**  | Crear, reprogramar, confirmar y cancelar citas con validaciones de conflictos     |
-| **⚡ Validaciones Avanzadas** | Verificación de horarios, solapamientos y datos obligatorios                      |
-| **📧 Notificaciones**         | Integración para envío de correos electrónicos (en desarrollo)                    |
-| **💳 Integración de Pagos**   | Procesamiento de pagos y reembolsos para citas (en desarrollo)                    |
-| **🔗 API RESTful**            | Documentada con Swagger/OpenAPI para fácil integración                            |
-| **🗃️ Base de Datos**          | PostgreSQL con migraciones automáticas via Flyway                                 |
-| **📊 Monitoreo**              | Endpoints de Actuator para salud y métricas                                       |
-| **🧪 Pruebas**                | Cobertura de pruebas unitarias y de integración                                   |
+| Característica         | Descripción                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| Gestión de Pacientes   | Crear, actualizar, listar y eliminar pacientes con validaciones completas   |
+| Gestión de Médicos     | Administrar perfiles de médicos con especialidades                          |
+| Agendamiento de Citas  | Crear, reprogramar, confirmar y cancelar citas con validaciones de conflictos |
+| Validaciones Avanzadas | Verificación de horarios, solapamientos y datos obligatorios                |
+| Notificaciones         | Integración para envío de correos electrónicos (en desarrollo)              |
+| Integración de Pagos   | Procesamiento de pagos y reembolsos para citas (en desarrollo)              |
+| API RESTful            | Documentada con Swagger/OpenAPI para fácil integración                      |
+| Base de Datos          | PostgreSQL con migraciones automáticas via Flyway                           |
+| Monitoreo              | Endpoints de Actuator para salud y métricas                                 |
+| Pruebas                | Cobertura de pruebas unitarias y de integración                             |
 
 ## 🔧 **Funcionalidades Detalladas**
 
 ### PACIENTES
-- **Registro con nombre completo**
-- **Documento de identidad único**
-- **Email con validación**
-- **Operaciones CRUD completas**
+- Registro con nombre completo
+- Documento de identidad único
+- Email con validación
+- Operaciones CRUD completas
 
 ### MÉDICOS
-- **Perfil con nombre completo**
-- **Especialidad médica**
-- **Gestión de disponibilidad**
+- Perfil con nombre completo
+- Especialidad médica
+- Gestión de disponibilidad
 
 ### CITAS
-- **Estados:** Solicitada | Confirmada | Cancelada | Completada
-- **Pagos:** Pendiente | Pagado | Reembolsado
-- **Validación anti-conflictos**
-- **Historial completo por paciente/médico**
+- Estados: Solicitada | Confirmada | Cancelada | Completada
+- Pagos: Pendiente | Pagado | Reembolsado
+- Validación anti-conflictos
+- Historial completo por paciente/médico
 ```
 
 ---
@@ -217,6 +217,7 @@ springdoc.swagger-ui.enabled=true
 <summary>👤 <strong>Gestión de Pacientes</strong></summary>
 
 ```bash
+
 # 🔹 Crear un Paciente
 curl -X POST http://localhost:8080/api/v1/patients \
   -H "Content-Type: application/json" \
