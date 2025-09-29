@@ -11,8 +11,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21) // Usar Java 21
-        // languageVersion = JavaLanguageVersion.of(24) // Cambiar a Java 24 si es necesario
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
