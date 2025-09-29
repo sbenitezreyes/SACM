@@ -34,6 +34,20 @@
 └─────────────────────────────────────────────────────┘
 ```
 
+## 🔗 **Integraciones Externas**
+
+El sistema está preparado para integraciones con servicios externos mediante interfaces modulares:
+
+### 📧 **Notificaciones**
+- **Interfaz:** `NotificationsClient`
+- **Funcionalidades:** Envío de correos para creación y cancelación de citas
+- **Estado:** Implementación dummy actual, lista para integración con proveedores como SendGrid o AWS SES
+
+### 💳 **Pagos**
+- **Interfaz:** `PaymentsClient`
+- **Funcionalidades:** Creación de pagos y procesamiento de reembolsos
+- **Estado:** Implementación dummy actual, preparada para pasarelas como Stripe o PayPal
+
 ---
 
 ## 🛠️ **Stack Tecnológico**
@@ -52,6 +66,7 @@
 | **📅 Agendamiento de Citas** | Crear, reprogramar, confirmar y cancelar citas con validaciones de conflictos |
 | **⚡ Validaciones Avanzadas** | Verificación de horarios, solapamientos y datos obligatorios |
 | **📧 Notificaciones** | Integración para envío de correos electrónicos (en desarrollo) |
+| **💳 Integración de Pagos** | Procesamiento de pagos y reembolsos para citas (en desarrollo) |
 | **🔗 API RESTful** | Documentada con Swagger/OpenAPI para fácil integración |
 | **🗃️ Base de Datos** | PostgreSQL con migraciones automáticas via Flyway |
 | **📊 Monitoreo** | Endpoints de Actuator para salud y métricas |
@@ -356,6 +371,7 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
 | `POST` | `/api/v1/appointments/{id}/complete` | ✔️ Completar cita | `CONFIRMED` → `COMPLETED` |
 | `GET` | `/api/v1/appointments/doctor/{doctorId}` | 📋 Citas por médico | Con filtros de fecha |
 | `GET` | `/api/v1/appointments/patient/{patientId}` | 📋 Historial de paciente | Ordenado por fecha |
+| `DELETE` | `/api/v1/appointments/{id}` | 🗑️ Eliminar cita | Solo si no está completada |
 
 ### 🗂️ **Modelos de Datos**
 
@@ -606,7 +622,8 @@ Este proyecto está bajo la **Licencia MIT**. Ver el archivo [`LICENSE`](LICENSE
 ```
 🔹 MEJORAS PLANIFICADAS:
   ├── 📧 Sistema de notificaciones por email completo
-  ├── 📱 Campos adicionales en PatientRequestDTO
+  ├── � Sistema de pagos completo
+  ├── �📱 Campos adicionales en PatientRequestDTO
   ├── 🔐 Autenticación y autorización (Spring Security)
   ├── 🌐 API Gateway para microservicios
   └── 📊 Dashboard administrativo
