@@ -199,10 +199,11 @@ springdoc.swagger-ui.enabled=true
 
 ### 🌐 **URLs de Acceso**
 
-```
-Aplicación Principal: http://localhost:8080
-Documentación API (Swagger): http://localhost:8080/swagger-ui/index.html
-```
+### Aplicación Principal
+- [http://localhost:8080](http://localhost:8080)
+
+### Documentación API (Swagger)
+- [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
 ---
 
