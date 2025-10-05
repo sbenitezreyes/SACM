@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 
-class AppointmentServiceTest {
+public class AppointmentServiceTest {
     @Test
     void noDebeCrearCitaSiHorariosInvalidos() {
         // Mocks
@@ -22,6 +22,7 @@ class AppointmentServiceTest {
         AppointmentRepository appointmentRepo = Mockito.mock(AppointmentRepository.class);
         // Mock para el validador
         co.proyecto.sacm.service.AppointmentValidator validator = Mockito.mock(co.proyecto.sacm.service.AppointmentValidator.class);
+        co.proyecto.sacm.integration.notifications.NotificationsClient notificationsClient = Mockito.mock(co.proyecto.sacm.integration.notifications.NotificationsClient.class);
 
         // Simula que médico y paciente existen
         Mockito.when(doctorRepo.findById(anyLong())).thenReturn(Optional.of(Mockito.mock(co.proyecto.sacm.model.Doctor.class)));
@@ -31,14 +32,13 @@ class AppointmentServiceTest {
         Mockito.doThrow(new BusinessException("Horarios inválidos")).when(validator).validateTimes(Mockito.any(), Mockito.any());
 
         AppointmentService service = new AppointmentService(
-                appointmentRepo, doctorRepo, patientRepo, validator, null, null
+                appointmentRepo, doctorRepo, patientRepo, validator, notificationsClient
         );
 
         AppointmentRequestDTO req = new AppointmentRequestDTO();
         req.setDoctorId(1L);
         req.setPatientId(1L);
         req.setStartAt(java.time.LocalDateTime.now().plusDays(1));
-        req.setEndAt(java.time.LocalDateTime.now()); // Fin antes que inicio
 
         // Verifica que se lanza la excepción por horarios inválidos
         assertThrows(BusinessException.class, () -> service.create(req));
@@ -50,13 +50,14 @@ class AppointmentServiceTest {
         DoctorRepository doctorRepo = Mockito.mock(DoctorRepository.class);
         PatientRepository patientRepo = Mockito.mock(PatientRepository.class);
         AppointmentRepository appointmentRepo = Mockito.mock(AppointmentRepository.class);
+        co.proyecto.sacm.integration.notifications.NotificationsClient notificationsClient = Mockito.mock(co.proyecto.sacm.integration.notifications.NotificationsClient.class);
 
         // Simula que el médico no existe
         Mockito.when(doctorRepo.findById(anyLong())).thenReturn(Optional.empty());
 
         // Instancia el servicio con los mocks y dependencias mínimas
         AppointmentService service = new AppointmentService(
-                appointmentRepo, doctorRepo, patientRepo, null, null, null
+                appointmentRepo, doctorRepo, patientRepo, null, notificationsClient
         );
 
         AppointmentRequestDTO req = new AppointmentRequestDTO();
@@ -73,6 +74,7 @@ class AppointmentServiceTest {
         DoctorRepository doctorRepo = Mockito.mock(DoctorRepository.class);
         PatientRepository patientRepo = Mockito.mock(PatientRepository.class);
         AppointmentRepository appointmentRepo = Mockito.mock(AppointmentRepository.class);
+        co.proyecto.sacm.integration.notifications.NotificationsClient notificationsClient = Mockito.mock(co.proyecto.sacm.integration.notifications.NotificationsClient.class);
 
         // Simula que el médico sí existe
         Mockito.when(doctorRepo.findById(anyLong())).thenReturn(Optional.of(Mockito.mock(co.proyecto.sacm.model.Doctor.class)));
@@ -81,7 +83,7 @@ class AppointmentServiceTest {
 
         // Instancia el servicio con los mocks y dependencias mínimas
         AppointmentService service = new AppointmentService(
-                appointmentRepo, doctorRepo, patientRepo, null, null, null
+                appointmentRepo, doctorRepo, patientRepo, null, notificationsClient
         );
 
         AppointmentRequestDTO req = new AppointmentRequestDTO();

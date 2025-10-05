@@ -12,6 +12,5 @@ public class AppointmentRequestDTO {
     @NotNull @Min(1) private Long doctorId;
     @NotNull @Min(1) private Long patientId;
     @NotNull @Future private LocalDateTime startAt;
-    @NotNull @Future private LocalDateTime endAt;
     private String notes;
 }

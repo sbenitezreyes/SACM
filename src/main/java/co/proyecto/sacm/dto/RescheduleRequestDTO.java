@@ -6,5 +6,4 @@ import java.time.LocalDateTime;
 @Data
 public class RescheduleRequestDTO {
     @NotNull @Future private LocalDateTime startAt;
-    @NotNull @Future private LocalDateTime endAt;
 }
