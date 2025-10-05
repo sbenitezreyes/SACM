@@ -1,7 +1,6 @@
 package co.proyecto.sacm.repository;
 
 import co.proyecto.sacm.model.Appointment;
-import co.proyecto.sacm.model.Doctor;
 import co.proyecto.sacm.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,8 +10,7 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
 
-    boolean existsByDoctorAndStartAtLessThanAndEndAtGreaterThan(
-            Doctor doctor, LocalDateTime endExclusive, LocalDateTime startExclusive);
+    boolean existsByDoctorIdAndStartAtEquals(Long doctorId, LocalDateTime startAt);
 
     List<Appointment> findByDoctorIdAndStartAtBetween(Long doctorId, LocalDateTime from, LocalDateTime to);
 

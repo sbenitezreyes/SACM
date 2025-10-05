@@ -70,7 +70,6 @@
 
 🔸 CITAS
   ├── Estados: Solicitada | Confirmada | Cancelada | Completada
-  ├── Pagos: Pendiente | Pagado | Reembolsado
   ├── Validación anti-conflictos
   └── Historial completo por paciente/médico
 ```
@@ -265,7 +264,6 @@ curl -X POST http://localhost:8080/api/v1/appointments \
     "doctorId": 1,
     "patientId": 1,
     "startAt": "2025-09-15T10:00:00",
-    "endAt": "2025-09-15T11:00:00",
     "notes": "Consulta de rutina"
   }'
 
@@ -276,8 +274,7 @@ curl -X POST http://localhost:8080/api/v1/appointments/1/confirm
 curl -X POST http://localhost:8080/api/v1/appointments/1/reschedule \
   -H "Content-Type: application/json" \
   -d '{
-    "startAt": "2025-09-16T14:00:00",
-    "endAt": "2025-09-16T15:00:00"
+    "startAt": "2025-09-16T14:00:00"
   }'
 
 # 🔹 Listar Citas por Médico
@@ -401,16 +398,13 @@ curl -X GET "http://localhost:8080/api/v1/appointments/doctor/1?from=2025-09-01T
   "doctorId": 1,
   "patientId": 1,
   "startAt": "2025-09-15T10:00:00",
-  "endAt": "2025-09-15T11:00:00",
   "status": "CONFIRMED",
-  "paymentStatus": "PENDING",
   "notes": "Consulta de rutina"
 }
 ```
 
 **Estados Disponibles:**
 - `status`: `REQUESTED`, `CONFIRMED`, `CANCELLED`, `COMPLETED`
-- `paymentStatus`: `PENDING`, `PAID`, `REFUNDED`
 
 </details>
 

@@ -21,7 +21,7 @@ public class AppointmentValidator {
 
     public void ensureNoOverlap(Doctor doctor, LocalDateTime start, LocalDateTime end) {
         boolean overlap = appointmentRepository
-                .existsByDoctorAndStartAtLessThanAndEndAtGreaterThan(doctor, end, start);
+                .existsByDoctorIdAndStartAtEquals(doctor.getId(), start);
         if (overlap) throw new BusinessException("Conflicto: el médico ya tiene una cita en ese rango");
     }
 }

@@ -18,13 +18,11 @@ CREATE TABLE appointments (
   doctor_id      BIGINT NOT NULL REFERENCES doctors(doctor_id),
   patient_id     BIGINT NOT NULL REFERENCES patients(patient_id),
   start_at       TIMESTAMP NOT NULL,
-  end_at         TIMESTAMP NOT NULL,
   status         VARCHAR(20) NOT NULL,        -- REQUESTED/CONFIRMED/...
-  payment_status VARCHAR(20) NOT NULL,        -- PENDING/PAID/...
   notes          TEXT,
   created_at     TIMESTAMPTZ DEFAULT now()
 );
 
 -- Índices útiles
-CREATE INDEX ix_appt_doctor_time ON appointments(doctor_id, start_at, end_at);
+CREATE INDEX ix_appt_doctor_time ON appointments(doctor_id, start_at);
 CREATE INDEX ix_appt_patient_time ON appointments(patient_id, start_at);
