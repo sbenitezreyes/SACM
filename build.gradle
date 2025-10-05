@@ -57,3 +57,6 @@ sonarqube {
         property "sonar.organization", "sbenitezreyes-1"
     }
 }
+
+// Added a comment to trigger SonarCloud analysis
+// Triggering SonarCloud analysis
