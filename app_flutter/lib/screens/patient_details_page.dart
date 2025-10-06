@@ -207,6 +207,11 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> with SingleTick
                           ],
                         ),
                       ),
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Theme.of(context).primaryColor),
+                        onPressed: () => _showEditDialog(),
+                        tooltip: 'Editar información',
+                      ),
                     ],
                   ),
                   Divider(height: 32),
@@ -412,6 +417,116 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> with SingleTick
           ),
         );
       },
+    );
+  }
+
+  void _showEditDialog() {
+    final documentController = TextEditingController(text: patientDetails!.documentId);
+    final nameController = TextEditingController(text: patientDetails!.fullName);
+    final emailController = TextEditingController(text: patientDetails!.email);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.edit, color: Theme.of(context).primaryColor),
+            SizedBox(width: 12),
+            Text('Editar Paciente'),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: documentController,
+                decoration: InputDecoration(
+                  labelText: 'Documento de Identidad',
+                  prefixIcon: Icon(Icons.badge),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  labelText: 'Nombre Completo',
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  labelText: 'Correo Electrónico',
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                keyboardType: TextInputType.emailAddress,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              // Validación básica
+              if (documentController.text.isEmpty || 
+                  nameController.text.isEmpty || 
+                  emailController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Todos los campos son obligatorios')),
+                );
+                return;
+              }
+
+              try {
+                // Actualizar paciente
+                await apiService.put(
+                  '/api/v1/patients/${widget.patientId}',
+                  {
+                    'documentId': documentController.text,
+                    'fullName': nameController.text,
+                    'email': emailController.text,
+                  },
+                );
+
+                Navigator.pop(context);
+                
+                // Recargar datos
+                await fetchPatientData();
+                
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Paciente actualizado exitosamente'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error al actualizar: $e'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            child: Text('Guardar'),
+          ),
+        ],
+      ),
     );
   }
 }
