@@ -1,116 +1,157 @@
 import 'package:flutter/material.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import '../services/api_service.dart';
-import '../models/patient.dart';
+import '../theme/app_theme.dart';
 
 class HomePage extends StatelessWidget {
-  final ApiService apiService = ApiService(baseUrl: 'http://3.142.93.102:8085');
-
-  // Método para verificar la conexión a Internet antes de realizar la solicitud
-  Future<bool> isConnectedToInternet() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    return connectivityResult != ConnectivityResult.none;
-  }
-
-  Future<bool> checkApiConnection() async {
-    try {
-      if (!await isConnectedToInternet()) {
-        throw Exception('No hay conexión a Internet');
-      }
-
-      final response = await apiService.get('/actuator/health');
-      print('Respuesta de la API: $response'); // Imprime la respuesta completa
-      if (response != null && response['status'] == 'UP') {
-        return true;
-      } else {
-        throw Exception('La API respondió pero no está en estado UP');
-      }
-    } catch (e) {
-      print('Error al conectar con la API: $e'); // Imprime el error
-      throw Exception('Error al conectar con la API: $e');
-    }
-  }
-
-  // Método para realizar un ping a la API con timeout
-  Future<bool> pingApiWithTimeout() async {
-    try {
-      final response = await apiService.get('/actuator/health').timeout(Duration(seconds: 5));
-      return response['status'] == 'UP';
-    } catch (e) {
-      print('Error o timeout al hacer ping a la API: $e');
-      return false;
-    }
-  }
-
-  Future<List<Patient>> fetchPatients() async {
-    try {
-      if (!await isConnectedToInternet()) {
-        throw Exception('No hay conexión a Internet');
-      }
-
-      final patients = await apiService.fetchPatients();
-      return patients;
-    } catch (e) {
-      print('Error al obtener pacientes: $e');
-      throw Exception('Error al obtener pacientes: $e');
-    }
-  }
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text(
+          'Sistema de Gestión Médica',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
       ),
-      body: FutureBuilder<List<Patient>>(
-        future: fetchPatients(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final patients = snapshot.data!;
-            return ListView.builder(
-              itemCount: patients.length,
-              itemBuilder: (context, index) {
-                final patient = patients[index];
-                return ListTile(
-                  title: Text(patient.fullName),
-                  subtitle: Text(patient.email),
+      body: Padding(
+        padding: EdgeInsets.all(AppTheme.spacingLG),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: AppTheme.spacingMD,
+          mainAxisSpacing: AppTheme.spacingMD,
+          childAspectRatio: 1.1, // Hace las tarjetas más anchas y menos altas
+          children: [
+            _buildMenuCard(
+              context,
+              icon: Icons.people,
+              title: 'Pacientes',
+              subtitle: 'Gestionar pacientes',
+              color: AppTheme.primaryColor,
+              onTap: () => Navigator.pushNamed(context, '/patients'),
+            ),
+            _buildMenuCard(
+              context,
+              icon: Icons.calendar_today,
+              title: 'Citas',
+              subtitle: 'Gestionar citas',
+              color: AppTheme.accentColor,
+              onTap: () => Navigator.pushNamed(context, '/appointments'),
+            ),
+            _buildMenuCard(
+              context,
+              icon: Icons.medical_services,
+              title: 'Médicos',
+              subtitle: 'Gestionar médicos',
+              color: AppTheme.successColor,
+              onTap: () => Navigator.pushNamed(context, '/doctors'),
+            ),
+            _buildMenuCard(
+              context,
+              icon: Icons.settings,
+              title: 'Configuración',
+              subtitle: 'Ajustes del sistema',
+              color: AppTheme.textSecondary,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Próximamente')),
                 );
               },
-            );
-          }
-        },
+            ),
+          ],
+        ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/patients');
-            },
-            tooltip: 'Pacientes',
-            child: Icon(Icons.people),
-          ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/appointments');
-            },
-            tooltip: 'Citas',
-            child: Icon(Icons.calendar_today),
-          ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/doctors');
-            },
-            tooltip: 'Médicos',
-            child: Icon(Icons.medical_services),
+    );
+  }
+
+  Widget _buildMenuCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.white, color.withOpacity(0.05)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(AppTheme.borderRadiusMD),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.2),
+            blurRadius: 8,
+            offset: Offset(0, 4),
           ),
         ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppTheme.borderRadiusMD),
+          child: Padding(
+            padding: EdgeInsets.all(AppTheme.spacingMD),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(AppTheme.spacingSM),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [color.withOpacity(0.8), color],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: color.withOpacity(0.3),
+                        blurRadius: 6,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    icon,
+                    size: 32,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: AppTheme.spacingSM),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.textPrimary,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: AppTheme.spacingXS),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: AppTheme.textSecondary,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

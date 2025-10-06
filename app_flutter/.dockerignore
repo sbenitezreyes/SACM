@@ -1,0 +1,45 @@
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+.idea/
+*.iml
+*.log
+
+# Git
+.git/
+.gitignore
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# VS Code
+.vscode/
+
+# Documentation
+*.md
+!README.md
+
+# Test files
+test/
+
+# Android
+android/
+!android/app/src/main/AndroidManifest.xml
+
+# iOS
+ios/
+
+# Linux
+linux/
+
+# macOS
+macos/
+
+# Windows
+windows/

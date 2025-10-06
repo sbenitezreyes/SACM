@@ -16,7 +16,6 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   String? selectedDoctorName;
   String? selectedSpecialty;
   DateTime? selectedStartAt;
-  DateTime? selectedEndAt;
 
   List<dynamic> patients = [];
   List<dynamic> filteredPatients = [];
@@ -69,29 +68,21 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   }
 
   Future<void> createAppointment() async {
-    if (selectedPatientId == null || selectedDoctorId == null || selectedStartAt == null || selectedEndAt == null || _notesController.text.isEmpty) {
+    if (selectedPatientId == null || selectedDoctorId == null || selectedStartAt == null) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Completa todos los campos antes de crear la cita.')),
+        SnackBar(content: Text('Selecciona paciente, doctor y fecha/hora antes de crear la cita.')),
       );
       return;
     }
     final appointmentData = {
       'doctorId': selectedDoctorId,
       'patientId': selectedPatientId,
-  'startAt': selectedStartAt!.toIso8601String(),
-  'endAt': selectedEndAt!.toIso8601String(),
+      'startAt': selectedStartAt!.toIso8601String(),
       'notes': _notesController.text,
     };
-  print('JSON enviado a la API: ${json.encode(appointmentData)}');
-    // Validar tipos y valores
-    if (appointmentData.values.any((v) => v == null || (v is String && v.isEmpty))) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Verifica que todos los campos tengan valores válidos.')),
-      );
-      return;
-    }
+    
+    print('JSON enviado a la API: ${json.encode(appointmentData)}');
     final response = await http.post(
   Uri.parse('http://3.142.93.102:8085/api/v1/appointments'),
       headers: {'Content-Type': 'application/json'},
@@ -114,140 +105,404 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Crear Nueva Cita')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Buscar paciente por documento'),
-              TextField(
-                controller: _documentSearchController,
-                decoration: InputDecoration(labelText: 'Documento'),
-                onChanged: filterPatients,
-              ),
-              SizedBox(height: 8),
-              ...filteredPatients.map((p) => ListTile(
-                title: Text(p['fullName'] ?? ''),
-                subtitle: Text('Documento: ${p['documentId']}'),
-                onTap: () {
-                  setState(() {
-                    selectedPatientId = int.tryParse(p['id'].toString());
-                    selectedPatientName = p['fullName'];
-                  });
-                },
-                selected: selectedPatientId == int.tryParse(p['id'].toString()),
-              )),
-              SizedBox(height: 16),
-              if (selectedPatientName != null)
-                Text('Paciente seleccionado: $selectedPatientName'),
-              Divider(),
-              Text('Seleccionar especialidad de médico'),
-              DropdownButton<String>(
-                value: selectedSpecialty,
-                hint: Text('Especialidad'),
-                items: specialties.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedSpecialty = value;
-                    filterDoctorsBySpecialty(value!);
-                    selectedDoctorId = null;
-                    selectedDoctorName = null;
-                  });
-                },
-              ),
-              SizedBox(height: 8),
-              ...filteredDoctors.map((d) => ListTile(
-                title: Text(d['fullName'] ?? ''),
-                subtitle: Text('Especialidad: ${d['specialty']}'),
-                onTap: () {
-                  setState(() {
-                    selectedDoctorId = int.tryParse(d['id'].toString());
-                    selectedDoctorName = d['fullName'];
-                  });
-                },
-                selected: selectedDoctorId == int.tryParse(d['id'].toString()),
-              )),
-              SizedBox(height: 16),
-              if (selectedDoctorName != null)
-                Text('Médico seleccionado: $selectedDoctorName'),
-              Divider(),
-              Text('Seleccionar fecha y hora de inicio'),
-              ElevatedButton(
-                onPressed: () async {
-                  final selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2100),
-                  );
-                  if (selectedDate != null) {
-                    final selectedTime = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (selectedTime != null) {
-                      setState(() {
-                        selectedStartAt = DateTime(
-                          selectedDate.year,
-                          selectedDate.month,
-                          selectedDate.day,
-                          selectedTime.hour,
-                          selectedTime.minute,
-                        );
-                      });
-                    }
-                  }
-                },
-                child: Text(selectedStartAt == null ? 'Seleccionar fecha y hora de inicio' :
-                  selectedStartAt == null ? 'Seleccionar fecha y hora de inicio' : selectedStartAt!.toLocal().toString()),
-              ),
-              SizedBox(height: 16),
-              Text('Seleccionar fecha y hora de fin'),
-              ElevatedButton(
-                onPressed: () async {
-                  final selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: selectedStartAt ?? DateTime.now(),
-                    firstDate: selectedStartAt ?? DateTime.now(),
-                    lastDate: DateTime(2100),
-                  );
-                  if (selectedDate != null) {
-                    final selectedTime = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (selectedTime != null) {
-                      setState(() {
-                        selectedEndAt = DateTime(
-                          selectedDate.year,
-                          selectedDate.month,
-                          selectedDate.day,
-                          selectedTime.hour,
-                          selectedTime.minute,
-                        );
-                      });
-                    }
-                  }
-                },
-                child: Text(selectedEndAt == null ? 'Seleccionar fecha y hora de fin' :
-                  selectedEndAt == null ? 'Seleccionar fecha y hora de fin' : selectedEndAt!.toLocal().toString()),
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _notesController,
-                decoration: InputDecoration(labelText: 'Notas'),
-              ),
-              SizedBox(height: 32),
-              ElevatedButton(
-                onPressed: () async {
-                  await createAppointment();
-                },
-                child: Text('Crear Cita'),
-              ),
-            ],
+      appBar: AppBar(
+        title: Text(
+          'Nueva Cita Médica',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Sección Paciente
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.white, Colors.blue.withOpacity(0.02)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.person, color: Theme.of(context).primaryColor),
+                        SizedBox(width: 8),
+                        Text(
+                          'Seleccionar Paciente',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: _documentSearchController,
+                      decoration: InputDecoration(
+                        labelText: 'Buscar por documento',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onChanged: filterPatients,
+                    ),
+                    if (filteredPatients.isNotEmpty) ...[
+                      SizedBox(height: 8),
+                      Container(
+                        constraints: BoxConstraints(maxHeight: 150),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: filteredPatients.length,
+                          itemBuilder: (context, index) {
+                            final p = filteredPatients[index];
+                            final isSelected = selectedPatientId == int.tryParse(p['id'].toString());
+                            return ListTile(
+                              title: Text(p['fullName'] ?? ''),
+                              subtitle: Text('Doc: ${p['documentId']}'),
+                              selected: isSelected,
+                              selectedTileColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  selectedPatientId = int.tryParse(p['id'].toString());
+                                  selectedPatientName = p['fullName'];
+                                  filteredPatients = [];
+                                  _documentSearchController.clear();
+                                });
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                    if (selectedPatientName != null) ...[
+                      SizedBox(height: 12),
+                      Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.check_circle, color: Colors.green, size: 20),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Paciente: $selectedPatientName',
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+
+            // Sección Médico
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.white, Colors.green.withOpacity(0.02)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.green.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.medical_services, color: Colors.green),
+                        SizedBox(width: 8),
+                        Text(
+                          'Seleccionar Médico',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: selectedSpecialty,
+                      decoration: InputDecoration(
+                        labelText: 'Especialidad',
+                        prefixIcon: Icon(Icons.local_hospital),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      items: specialties.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedSpecialty = value;
+                          filterDoctorsBySpecialty(value!);
+                          selectedDoctorId = null;
+                          selectedDoctorName = null;
+                        });
+                      },
+                    ),
+                    if (selectedSpecialty != null && filteredDoctors.isNotEmpty) ...[
+                      SizedBox(height: 12),
+                      ...filteredDoctors.map((d) {
+                        final isSelected = selectedDoctorId == int.tryParse(d['id'].toString());
+                        return Card(
+                          margin: EdgeInsets.only(bottom: 8),
+                          color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
+                          child: ListTile(
+                            title: Text(d['fullName'] ?? ''),
+                            subtitle: Text(d['specialty'] ?? ''),
+                            leading: CircleAvatar(
+                              backgroundColor: isSelected 
+                                  ? Theme.of(context).primaryColor 
+                                  : Colors.grey[300],
+                              child: Icon(
+                                Icons.person,
+                                color: isSelected ? Colors.white : Colors.grey[600],
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                selectedDoctorId = int.tryParse(d['id'].toString());
+                                selectedDoctorName = d['fullName'];
+                              });
+                            },
+                          ),
+                        );
+                      }),
+                    ],
+                    if (selectedDoctorName != null) ...[
+                      SizedBox(height: 12),
+                      Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.check_circle, color: Colors.green, size: 20),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Médico: $selectedDoctorName',
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+
+            // Sección Fecha y Hora
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.white, Colors.purple.withOpacity(0.02)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.purple.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_today, color: Theme.of(context).primaryColor),
+                        SizedBox(width: 8),
+                        Text(
+                          'Fecha y Hora',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    OutlinedButton.icon(
+                      onPressed: () async {
+                        final selectedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2100),
+                        );
+                        if (selectedDate != null) {
+                          final selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+                          if (selectedTime != null) {
+                            setState(() {
+                              selectedStartAt = DateTime(
+                                selectedDate.year,
+                                selectedDate.month,
+                                selectedDate.day,
+                                selectedTime.hour,
+                                selectedTime.minute,
+                              );
+                            });
+                          }
+                        }
+                      },
+                      icon: Icon(Icons.event),
+                      label: Text(
+                        selectedStartAt == null 
+                            ? 'Fecha y hora de inicio' 
+                            : selectedStartAt!.toLocal().toString().substring(0, 16),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+
+            // Sección Notas
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.white, Colors.orange.withOpacity(0.02)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.orange.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.notes, color: Theme.of(context).primaryColor),
+                        SizedBox(width: 8),
+                        Text(
+                          'Notas Adicionales',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    TextFormField(
+                      controller: _notesController,
+                      decoration: InputDecoration(
+                        labelText: 'Notas o comentarios (opcional)',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        hintText: 'Escriba cualquier información adicional...',
+                      ),
+                      maxLines: 3,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 24),
+
+            // Botones de acción
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text('CANCELAR'),
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  flex: 2,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await createAppointment();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text('CREAR CITA'),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

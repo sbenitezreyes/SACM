@@ -9,6 +9,7 @@ import 'screens/appointments_page.dart';
 import 'screens/doctors_page.dart';
 import 'screens/create_doctor_page.dart';
 import 'screens/create_appointment_page.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,11 +23,9 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 34, 255, 237)),
-        ),
+        title: 'Sistema de Gestión Médica',
+        theme: AppTheme.lightTheme,
+        debugShowCheckedModeBanner: false,
         initialRoute: '/login',
         routes: {
           '/login': (context) => LoginPage(),
