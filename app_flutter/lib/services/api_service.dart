@@ -237,4 +237,4 @@ class ApiService {
   }
 }
 
-final apiService = ApiService(baseUrl: 'http://3.142.93.102:8085');
+final apiService = ApiService(baseUrl: 'http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085');

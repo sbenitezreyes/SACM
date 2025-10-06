@@ -1,1 +1,1 @@
-const String baseUrl = 'http://3.142.93.102:8085';
+const String baseUrl = 'http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085';

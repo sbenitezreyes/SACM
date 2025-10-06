@@ -304,7 +304,7 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
                           if (doctor == null) {
                             try {
                               final response = await http.post(
-                                Uri.parse('http://3.142.93.102:8085/api/v1/doctors'),
+                                Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/doctors'),
                                 headers: {'Content-Type': 'application/json'},
                                 body: json.encode({
                                   'fullName': fullName,
@@ -347,7 +347,7 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
                           } else {
                             try {
                               final response = await http.put(
-                                Uri.parse('http://3.142.93.102:8085/api/v1/doctors/${doctor['id']}'),
+                                Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/doctors/${doctor['id']}'),
                                 headers: {'Content-Type': 'application/json'},
                                 body: json.encode({
                                   'fullName': fullName,
