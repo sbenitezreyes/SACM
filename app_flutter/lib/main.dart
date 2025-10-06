@@ -27,16 +27,47 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         debugShowCheckedModeBanner: false,
         initialRoute: '/login',
-        routes: {
-          '/login': (context) => LoginPage(),
-          '/home': (context) => HomePage(),
-          '/patients': (context) => PatientsPage(),
-          '/create_patient': (context) => CreatePatientPage(),
-          '/patient_details': (context) => PatientDetailsPage(patientId: 0),
-          '/appointments': (context) => AppointmentsPage(),
-          '/doctors': (context) => DoctorsPage(),
-          '/create_doctor': (context) => CreateDoctorPage(),
-          '/create_appointment': (context) => CreateAppointmentPage(),
+        onGenerateRoute: (settings) {
+          // Manejo de rutas con argumentos
+          if (settings.name == '/patient_details') {
+            final patientId = settings.arguments as int;
+            return MaterialPageRoute(
+              builder: (context) => PatientDetailsPage(patientId: patientId),
+            );
+          }
+          
+          // Rutas sin argumentos
+          Widget page;
+          switch (settings.name) {
+            case '/login':
+              page = LoginPage();
+              break;
+            case '/home':
+              page = HomePage();
+              break;
+            case '/patients':
+              page = PatientsPage();
+              break;
+            case '/create_patient':
+              page = CreatePatientPage();
+              break;
+            case '/appointments':
+              page = AppointmentsPage();
+              break;
+            case '/doctors':
+              page = DoctorsPage();
+              break;
+            case '/create_doctor':
+              page = CreateDoctorPage();
+              break;
+            case '/create_appointment':
+              page = CreateAppointmentPage();
+              break;
+            default:
+              page = LoginPage();
+          }
+          
+          return MaterialPageRoute(builder: (context) => page);
         },
       ),
     );

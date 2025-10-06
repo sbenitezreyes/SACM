@@ -228,6 +228,14 @@ class _PatientsPageState extends State<PatientsPage> {
                             ),
                             child: ListTile(
                               contentPadding: EdgeInsets.all(16),
+                              onTap: () {
+                                // Navegar a la página de detalles del paciente
+                                Navigator.pushNamed(
+                                  context,
+                                  '/patient_details',
+                                  arguments: int.parse(patient['id'].toString()),
+                                );
+                              },
                               leading: Container(
                                 width: 56,
                                 height: 56,
