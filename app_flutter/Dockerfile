@@ -1,12 +1,14 @@
 # Dockerfile para Flutter Web
 # 1. Usa una imagen oficial de Dart/Flutter para construir
-FROM cirrusci/flutter:latest AS build
+FROM ghcr.io/cirruslabs/flutter:stable AS build
 
 WORKDIR /app
 COPY . .
 
-# 2. Construye la app web
-RUN flutter build web --release
+# 2. Habilita web y obtiene dependencias
+RUN flutter config --enable-web && \
+    flutter pub get && \
+    flutter build web --release
 
 # 3. Usa Nginx para servir la app web
 FROM nginx:alpine
