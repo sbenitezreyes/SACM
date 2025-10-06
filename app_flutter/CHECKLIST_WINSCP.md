@@ -4,11 +4,11 @@
 
 ```
 app_flutter/
-├── 📄 Dockerfile                    ⭐ ESENCIAL
+├── 📄 Dockerfile.frontend           ⭐ ESENCIAL (renombrado para no conflictuar con API)
 ├── 📄 .dockerignore                 ⭐ ESENCIAL
 ├── 📄 pubspec.yaml                  ⭐ ESENCIAL
 ├── 📄 pubspec.lock                  ⭐ ESENCIAL
-├── 📄 deploy.sh                     🚀 Script automático
+├── 📄 deploy-frontend.sh            🚀 Script automático (renombrado)
 ├── 📄 INSTRUCCIONES_DESPLIEGUE.md   📖 Guía
 ├── 📁 lib/                          ⭐ TODO el código fuente
 │   ├── main.dart
@@ -73,8 +73,8 @@ mkdir -p /home/usuario/apps/app_flutter
 ### 4. Conectar con PuTTY y ejecutar
 ```bash
 cd /home/usuario/apps/app_flutter
-chmod +x deploy.sh
-./deploy.sh
+chmod +x deploy-frontend.sh
+./deploy-frontend.sh
 ```
 
 ---
@@ -83,9 +83,11 @@ chmod +x deploy.sh
 
 ```bash
 cd /home/usuario/apps/app_flutter
-docker build -t app-flutter-web:latest .
-docker run -d -p 80:80 --name flutter-app app-flutter-web:latest
+docker build -f Dockerfile.frontend -t app-flutter-frontend:latest .
+docker run -d -p 3000:80 --name flutter-frontend app-flutter-frontend:latest
 ```
+
+**Nota:** Puerto 3000 para el frontend (tu API está en otro puerto)
 
 ---
 
@@ -102,7 +104,7 @@ Por eso es importante incluir el archivo `.dockerignore`
 
 Después de subir, ejecuta en PuTTY:
 ```bash
-chmod +x deploy.sh
-chmod 644 Dockerfile
+chmod +x deploy-frontend.sh
+chmod 644 Dockerfile.frontend
 chmod 644 .dockerignore
 ```

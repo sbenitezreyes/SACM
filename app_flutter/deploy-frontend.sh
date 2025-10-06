@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script de despliegue automático para Flutter Web App
-# Uso: ./deploy.sh
+# Script de despliegue automático para Flutter Web App (Frontend)
+# Uso: ./deploy-frontend.sh
 
-echo "🚀 Iniciando despliegue de Flutter Web App..."
+echo "🚀 Iniciando despliegue de Flutter Frontend..."
 
 # Colores para output
 GREEN='\033[0;32m'
@@ -12,9 +12,10 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Variables
-CONTAINER_NAME="flutter-app"
-IMAGE_NAME="app-flutter-web:latest"
-PORT=80
+CONTAINER_NAME="flutter-frontend"
+IMAGE_NAME="app-flutter-frontend:latest"
+PORT=3000
+DOCKERFILE="Dockerfile.frontend"
 
 # Función para verificar si Docker está instalado
 check_docker() {
@@ -47,7 +48,7 @@ remove_old_image() {
 # Función para construir imagen
 build_image() {
     echo -e "${YELLOW}🔨 Construyendo imagen Docker...${NC}"
-    if docker build -t $IMAGE_NAME .; then
+    if docker build -f $DOCKERFILE -t $IMAGE_NAME .; then
         echo -e "${GREEN}✅ Imagen construida exitosamente${NC}"
     else
         echo -e "${RED}❌ Error al construir la imagen${NC}"

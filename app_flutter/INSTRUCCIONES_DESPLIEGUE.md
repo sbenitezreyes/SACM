@@ -1,11 +1,11 @@
-# 📋 Instrucciones para Desplegar en Servidor
+# 📋 Instrucciones para Desplegar Frontend en Servidor
 
 ## 📁 Archivos a subir por WinSCP
 
 Sube **TODA la carpeta del proyecto** al servidor, incluyendo:
 
 ### ✅ Archivos esenciales:
-- `Dockerfile` (configuración de Docker)
+- `Dockerfile.frontend` (configuración de Docker para frontend)
 - `.dockerignore` (archivos a ignorar)
 - `pubspec.yaml` (dependencias)
 - `pubspec.lock` (versiones bloqueadas)
@@ -34,20 +34,22 @@ ssh usuario@tu-servidor.com
 cd /ruta/donde/subiste/app_flutter
 ```
 
-### 3. Construir la imagen Docker
+### 3. Construir la imagen Docker (Frontend)
 ```bash
-docker build -t app-flutter-web:latest .
+docker build -f Dockerfile.frontend -t app-flutter-frontend:latest .
 ```
 
-### 4. Ejecutar el contenedor
+### 4. Ejecutar el contenedor (Frontend en puerto 3000)
 ```bash
-docker run -d -p 80:80 --name flutter-app app-flutter-web:latest
+docker run -d -p 3000:80 --name flutter-frontend app-flutter-frontend:latest
 ```
 
 **O en otro puerto (ejemplo: 8080):**
 ```bash
-docker run -d -p 8080:80 --name flutter-app app-flutter-web:latest
+docker run -d -p 8080:80 --name flutter-frontend app-flutter-frontend:latest
 ```
+
+**Nota:** Se usa puerto 3000 para no conflictuar con tu API (probablemente en 80 o 8085)
 
 ### 5. Verificar que está corriendo
 ```bash
@@ -67,17 +69,23 @@ Si haces cambios y quieres actualizar:
 
 ```bash
 # 1. Detener y eliminar el contenedor anterior
-docker stop flutter-app
-docker rm flutter-app
+docker stop flutter-frontend
+docker rm flutter-frontend
 
 # 2. Eliminar la imagen anterior (opcional)
-docker rmi app-flutter-web:latest
+docker rmi app-flutter-frontend:latest
 
 # 3. Reconstruir con los nuevos archivos
-docker build -t app-flutter-web:latest .
+docker build -f Dockerfile.frontend -t app-flutter-frontend:latest .
 
 # 4. Ejecutar de nuevo
-docker run -d -p 80:80 --name flutter-app app-flutter-web:latest
+docker run -d -p 3000:80 --name flutter-frontend app-flutter-frontend:latest
+```
+
+### 🔄 O usa el script automático:
+```bash
+chmod +x deploy-frontend.sh
+./deploy-frontend.sh
 ```
 
 ---
@@ -85,31 +93,31 @@ docker run -d -p 80:80 --name flutter-app app-flutter-web:latest
 ## 🌐 Acceder a la aplicación
 
 Una vez ejecutado, accede desde el navegador:
-- `http://IP-DEL-SERVIDOR` (si usaste puerto 80)
-- `http://IP-DEL-SERVIDOR:8080` (si usaste puerto 8080)
+- `http://IP-DEL-SERVIDOR:3000` (Frontend Flutter)
+- `http://IP-DEL-SERVIDOR:8085` (Backend API - ya desplegado)
 
 ---
 
 ## 🛠️ Comandos útiles
 
 ```bash
-# Ver contenedores corriendo
+# Ver contenedores corriendo (verás API + Frontend)
 docker ps
 
-# Detener contenedor
-docker stop flutter-app
+# Detener contenedor frontend
+docker stop flutter-frontend
 
-# Iniciar contenedor
-docker start flutter-app
+# Iniciar contenedor frontend
+docker start flutter-frontend
 
-# Reiniciar contenedor
-docker restart flutter-app
+# Reiniciar contenedor frontend
+docker restart flutter-frontend
 
 # Ver logs en tiempo real
-docker logs -f flutter-app
+docker logs -f flutter-frontend
 
-# Eliminar contenedor
-docker rm flutter-app
+# Eliminar contenedor frontend
+docker rm flutter-frontend
 
 # Ver imágenes
 docker images
