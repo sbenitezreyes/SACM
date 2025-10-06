@@ -1,8 +1,10 @@
 name: CI Pipeline
 
 on:
+  push:
+    branches: ['develop','santiago_limpia']
   pull_request:
-    branches: ['develop']
+    branches: ['develop','main']
 
 jobs:
   build:
@@ -12,27 +14,24 @@ jobs:
       postgres:
         image: postgres:16
         env:
-          POSTGRES_DB: sacmdb
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: admin
+            POSTGRES_DB: sacmdb
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: admin
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          --health-cmd="pg_isready -U postgres" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        if: ${{ hashFiles('**/gradlew') != '' }}
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: 'gradle'
 
       - name: Install PostgreSQL client
         run: |
@@ -43,13 +42,11 @@ jobs:
         run: |
           for i in {1..30}; do
             pg_isready -h localhost -p 5432 -U postgres && exit 0
-            echo "Postgres no listo aún... reintentando"
-            sleep 2
+            echo "Postgres no listo aún... reintentando" && sleep 2
           done
           echo "Postgres no arrancó a tiempo"; exit 1
 
-      - name: Build with Gradle
-        if: ${{ hashFiles('**/gradlew') != '' }}
+      - name: Build + Test + Coverage
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sacmdb
           SPRING_DATASOURCE_USERNAME: postgres
@@ -57,21 +54,34 @@ jobs:
           SPRING_JPA_HIBERNATE_DDL_AUTO: validate
         run: |
           chmod +x ./gradlew
-          ./gradlew build --stacktrace
+          ./gradlew clean test jacocoTestReport --no-daemon --stacktrace
+
+      - name: Upload Jacoco HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-html
+          path: build/reports/jacoco/test/html
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5.0.0
-        with:
-          args: >
-            -Dsonar.projectKey=sbenitezreyes_SACM
-            -Dsonar.organization=sbenitezreyes-1
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.sources=src/main/java,src/main/resources
-            -Dsonar.tests=src/test/java
-            -Dsonar.exclusions=**/build/**,**/.gradle/**,**/src/test/**/*
-            -Dsonar.java.binaries=build/classes/java/main
-            -Dsonar.java.test.binaries=build/classes/java/test
-            -Dsonar.junit.reportPaths=build/test-results/test
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ./gradlew sonarqube --no-daemon -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.projectKey=sbenitezreyes_SACM \
+            -Dsonar.organization=sbenitezreyes-1
+
+      - name: Quality Gate (wait) / soft fail
+        if: always()
+        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+        timeout-minutes: 10
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+
+      - name: Show summaries
+        if: always()
+        run: |
+          echo "Tests y análisis completados"
+          echo "Ver artifact jacoco-html para cobertura detallada"
