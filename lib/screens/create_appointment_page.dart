@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+const String apiBaseUrl = 'http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085';
+
 class CreateAppointmentPage extends StatefulWidget {
   @override
   _CreateAppointmentPageState createState() => _CreateAppointmentPageState();
@@ -31,7 +33,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   }
 
   Future<void> fetchPatients() async {
-  final response = await http.get(Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/patients'));
+  final response = await http.get(Uri.parse(apiBaseUrl + '/api/v1/patients'));
     if (response.statusCode == 200) {
       setState(() {
         patients = json.decode(response.body);
@@ -41,7 +43,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   }
 
   Future<void> fetchDoctors() async {
-  final response = await http.get(Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/doctors'));
+  final response = await http.get(Uri.parse(apiBaseUrl + '/api/v1/doctors'));
     if (response.statusCode == 200) {
       setState(() {
         doctors = json.decode(response.body);
@@ -84,7 +86,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
     
     print('JSON enviado a la API: ${json.encode(appointmentData)}');
     final response = await http.post(
-  Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/appointments'),
+  Uri.parse(apiBaseUrl + '/api/v1/appointments'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode(appointmentData),
     );

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../constants.dart';
+import '../models/doctor.dart';
+import '../models/appointment.dart';
+import '../services/api_service.dart';
+import 'doctor_details_page.dart';
 
 class CreateDoctorPage extends StatefulWidget {
   @override
@@ -8,6 +13,13 @@ class CreateDoctorPage extends StatefulWidget {
 }
 
 class _CreateDoctorPageState extends State<CreateDoctorPage> {
+  bool isLoading = false;
+  String? errorMessage;
+  Doctor? doctorDetails;
+  List<Appointment> appointments = [];
+
+  final ApiService apiService = ApiService(baseUrl: apiBaseUrl);
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _specialtyController = TextEditingController();
   
@@ -75,6 +87,77 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
     // Simulación de creación de médico
     await Future.delayed(Duration(seconds: 1));
     print('Médico creado exitosamente (simulación)');
+  }
+
+  Future<void> fetchDoctorData(int doctorId, DateTime from, DateTime to) async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    try {
+      // Cargar datos del doctor y sus citas entre fechas
+      final results = await Future.wait([
+        apiService.get('/api/v1/doctors/$doctorId'),
+        apiService.get('/api/v1/appointments/doctor/$doctorId?from=${from.toIso8601String()}&to=${to.toIso8601String()}'),
+      ]);
+
+      final doctorJson = results[0] as Map<String, dynamic>;
+      final appointmentsData = results[1] as List;
+
+      setState(() {
+        doctorDetails = Doctor.fromJson(doctorJson);
+        appointments = appointmentsData.map((json) => Appointment.fromJson(json)).toList();
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error al cargar datos: $e';
+        isLoading = false;
+      });
+    }
+  }
+
+  void onThreeDotsPressed(int doctorId) {
+    final from = DateTime.now().subtract(Duration(days: 30));
+    final to = DateTime.now();
+    fetchDoctorData(doctorId, from, to);
+  }
+
+  Widget buildDoctorListTile(Doctor doctor) {
+    return ListTile(
+      contentPadding: EdgeInsets.all(16),
+      title: Text(doctor.fullName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      subtitle: Text('Especialidad: ${doctor.specialty}', style: TextStyle(color: Colors.grey[600], fontSize: 14)),
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/doctor_details',
+          arguments: doctor.id,
+        );
+      },
+    );
+  }
+
+  Widget buildDoctorCard(Doctor doctor) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListTile(
+        title: Text(doctor.fullName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        subtitle: Text('Especialidad: ${doctor.specialty}', style: TextStyle(color: Colors.grey[600], fontSize: 14)),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DoctorDetailsPage(doctorId: doctor.id),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -304,7 +387,9 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
                           if (doctor == null) {
                             try {
                               final response = await http.post(
-                                Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/doctors'),
+                                Uri.parse(
+                                  apiBaseUrl + '/api/v1/doctors'
+                                ),
                                 headers: {'Content-Type': 'application/json'},
                                 body: json.encode({
                                   'fullName': fullName,
@@ -347,7 +432,9 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
                           } else {
                             try {
                               final response = await http.put(
-                                Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/doctors/${doctor['id']}'),
+                                Uri.parse(
+                                  apiBaseUrl + '/api/v1/doctors/${doctor['id']}'
+                                ),
                                 headers: {'Content-Type': 'application/json'},
                                 body: json.encode({
                                   'fullName': fullName,

@@ -3,8 +3,9 @@ import '../services/api_service.dart';
 import '../models/appointment.dart';
 import '../models/patient.dart';
 import '../models/doctor.dart';
+import '../constants.dart';
 
-final apiService = ApiService(baseUrl: 'http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085');
+final apiService = ApiService(baseUrl: apiBaseUrl);
 
 class AppointmentsPage extends StatefulWidget {
   @override

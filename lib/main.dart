@@ -10,6 +10,7 @@ import 'screens/doctors_page.dart';
 import 'screens/create_doctor_page.dart';
 import 'screens/create_appointment_page.dart';
 import 'theme/app_theme.dart';
+import 'screens/doctor_details_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +34,11 @@ class MyApp extends StatelessWidget {
             final patientId = settings.arguments as int;
             return MaterialPageRoute(
               builder: (context) => PatientDetailsPage(patientId: patientId),
+            );
+          } else if (settings.name == '/doctor_details') {
+            final doctorId = settings.arguments as int;
+            return MaterialPageRoute(
+              builder: (context) => DoctorDetailsPage(doctorId: doctorId),
             );
           }
           

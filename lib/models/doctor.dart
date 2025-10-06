@@ -24,4 +24,16 @@ class Doctor {
       'specialty': specialty,
     };
   }
+
+  Doctor copyWith({
+    int? id,
+    String? fullName,
+    String? specialty,
+  }) {
+    return Doctor(
+      id: id ?? this.id,
+      fullName: fullName ?? this.fullName,
+      specialty: specialty ?? this.specialty,
+    );
+  }
 }

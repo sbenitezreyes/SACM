@@ -4,8 +4,9 @@ import '../services/api_service.dart';
 import '../models/appointment.dart';
 import '../models/patient.dart';
 import '../models/doctor.dart';
+import '../constants.dart';
 
-final apiService = ApiService(baseUrl: 'http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085');
+final apiService = ApiService(baseUrl: apiBaseUrl);
 
 class PatientDetailsPage extends StatefulWidget {
   final int patientId;
@@ -86,7 +87,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> with SingleTick
 
   Future<void> deletePatient() async {
     try {
-  final response = await http.delete(Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/patients/${widget.patientId}'));
+      final response = await http.delete(Uri.parse(apiBaseUrl + '/api/v1/patients/${widget.patientId}'));
       // Cambié la URL a HTTP pero mantuve HTTPS como opción para producción.
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(

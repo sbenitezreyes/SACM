@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/patient.dart';
 import '../models/appointment.dart';
+import '../constants.dart';
 
 class ApiService {
   final String baseUrl;
@@ -254,4 +255,4 @@ class ApiService {
   }
 }
 
-final apiService = ApiService(baseUrl: 'http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085');
+final apiService = ApiService(baseUrl: apiBaseUrl);

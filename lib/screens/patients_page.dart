@@ -1,7 +1,8 @@
 import '../services/api_service.dart';
+import '../constants.dart';
 import 'package:flutter/material.dart';
 
-final apiService = ApiService(baseUrl: 'http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085');
+final apiService = ApiService(baseUrl: apiBaseUrl);
 
 class PatientsPage extends StatefulWidget {
   @override

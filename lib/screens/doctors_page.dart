@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import '../constants.dart';
 
-final apiService = ApiService(baseUrl: 'http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085');
+final apiService = ApiService(baseUrl: apiBaseUrl);
 
 class DoctorsPage extends StatefulWidget {
   @override
@@ -378,6 +379,13 @@ class _DoctorsPageState extends State<DoctorsPage> {
                                   ),
                                 ],
                               ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/doctor_details',
+                                  arguments: doctor['id'],
+                                );
+                              },
                             ),
                           );
                         },

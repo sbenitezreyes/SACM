@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../constants.dart';
 
 class CreatePatientPage extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class _CreatePatientPageState extends State<CreatePatientPage> {
 
   Future<void> createPatient(Map<String, dynamic> patientData) async {
     final response = await http.post(
-  Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/patients'),
+      Uri.parse(apiBaseUrl + '/api/v1/patients'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode(patientData),
     );
@@ -45,7 +46,7 @@ class _CreatePatientPageState extends State<CreatePatientPage> {
 
   Future<void> updatePatient(Map<String, dynamic> patientData) async {
     final response = await http.put(
-  Uri.parse('http://ec2-3-21-127-81.us-east-2.compute.amazonaws.com:8085/api/v1/patients/$patientId'),
+      Uri.parse(apiBaseUrl + '/api/v1/patients/$patientId'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode(patientData),
     );
