@@ -1,7 +1,6 @@
 package co.proyecto.sacm.model;
 
 import co.proyecto.sacm.model.enums.AppointmentStatus;
-import co.proyecto.sacm.model.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,16 +27,9 @@ public class Appointment {
     @Column(name = "start_at", nullable = false)
     private LocalDateTime startAt;
 
-    @Column(name = "end_at", nullable = false)
-    private LocalDateTime endAt;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     private AppointmentStatus status;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "payment_status", nullable = false, length = 20)
-    private PaymentStatus paymentStatus;
 
     @Column(name = "notes", length = 500)
     private String notes;

@@ -11,8 +11,6 @@ public class AppointmentResponseDTO {
     Long doctorId;
     Long patientId;
     LocalDateTime startAt;
-    LocalDateTime endAt;
     AppointmentStatus status;
-    PaymentStatus paymentStatus;
     String notes;
 }

@@ -47,7 +47,7 @@ public class AppointmentController {
     public ResponseEntity<AppointmentResponseDTO> reschedule(@PathVariable Long id,
                                                              @Valid @RequestBody co.proyecto.sacm.dto.RescheduleRequestDTO req){
         return ResponseEntity.ok(
-                appointmentService.reschedule(id, req.getStartAt(), req.getEndAt()));
+                appointmentService.reschedule(id, req.getStartAt()));
     }
 
     @Operation(summary = "Confirmar cita")
@@ -91,6 +91,12 @@ public class AppointmentController {
     @GetMapping("/patient/{patientId}")
     public ResponseEntity<List<AppointmentResponseDTO>> listByPatient(@PathVariable Long patientId) {
         return ResponseEntity.ok(appointmentService.listByPatient(patientId));
+    }
+
+    @Operation(summary = "Listar todas las citas")
+    @GetMapping
+    public ResponseEntity<List<AppointmentResponseDTO>> listAll() {
+        return ResponseEntity.ok(appointmentService.listAll());
     }
 
 
